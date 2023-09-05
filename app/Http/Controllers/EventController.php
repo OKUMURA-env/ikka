@@ -7,14 +7,33 @@ use App\Models\Event;
 
 class EventController extends Controller
 {
-    /**
+     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function eventGet(Request $request)
     {
-        //
+        $start = $request->input('start');
+        $end = $request->input('end');
+
+
+        // 登録処理
+        $events =  Event::query()
+            ->select(
+                // FullCalendarの形式に合わせる
+                'id',
+                'start',
+                'end',
+                'title',
+            )
+            // FullCalendarの表示範囲のみ表示
+            ->where('end', '>', $start)
+            ->where('start', '<', $end)
+            ->get();
+            
+           
+        return response()->json($events);
     }
 
     /**
