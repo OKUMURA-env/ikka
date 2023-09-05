@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Event;
 
 class EventController extends Controller
 {
@@ -24,7 +25,8 @@ class EventController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $event = Event::create($request->post());
+        return response()->json($event);
     }
 
     /**
