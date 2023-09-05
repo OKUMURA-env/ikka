@@ -113,6 +113,12 @@ export default {
     },
 
     methods: {
+        closeModal() {
+            this.event.title = null;
+            this.event.start_date = null;
+            this.event.end_date = null;
+           
+        },
         saveEvent() {
             let start = this.event.start_date;
             let end = this.event.end_date;
