@@ -4,7 +4,9 @@
               <FullCalendar :options="calendarOptions" ref="fullcalendar"  />
             </div>
           </div>
-    <CreateEventModal/>
+    <create-event-modal
+        
+    />
 </template>
 
 <script>
@@ -54,9 +56,29 @@ export default {
                     },
                 },
                 weekends: true,
+                
+                events: function (info, successCallback) {
+                    axios
+                        .post("api/event/event-get", {
+                            start: info.startStr.valueOf(),
+                            end: info.endStr.valueOf(),
+                        })
+                        .then((response) => {
+                            // カレンダーに読み込み
+                            console.log(response);
+                            successCallback(response.data);
+                        })
+                        .catch(() => {
+                            // バリデーションエラーなど
+                            alert("登録に失敗しました");
+                        });
+                },
 
             }
         }
+    },
+    method: {
+       
     }
 }
 </script>
