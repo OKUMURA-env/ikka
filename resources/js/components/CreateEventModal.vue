@@ -1,6 +1,5 @@
 <template>
    <div
-    
         v-cloak
         tabindex="-1"
         aria-labelledby="CreateEventModal"
@@ -13,6 +12,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">新規登録</h5>
+                    {{ event }}
                     <button
                         type="button"
                         class="btn-close"
@@ -30,6 +30,7 @@
                                     <input
                                         type="text"
                                         class="form-control w-100 modal-title"
+                                        v-model="event.title"
                                         placeholder="Add title ..."
                                         ref="eventTitle"
                                         autofocus
@@ -43,6 +44,7 @@
                                     <input
                                         type="date"
                                         class="form-control w-100 modal-title"
+                                        v-model="event.start_date"
                                         ref="eventStartDate"
                                         autofocus
                                     />
@@ -55,6 +57,7 @@
                                     <input
                                         type="date"
                                         class="form-control w-100 modal-title"
+                                        v-model="event.end_date"
                                         ref="eventEndDate"
                                         autofocus
                                     />
@@ -96,7 +99,13 @@ export default {
     components: {
     },
     data() {
-        
+        return {
+            event: {
+                title: null,
+                start_date: "",
+                end_date: "",
+            },
+        }
     },
 
     mounted() {
@@ -104,6 +113,26 @@ export default {
     },
 
     methods: {
+        saveEvent() {
+            let start = this.event.start_date;
+            let end = this.event.end_date;
+
+
+            axios
+                .post("/api/event", {
+                    title: this.event.title,
+                    start: start,
+                    end: end,
+                    all_day: this.event.all_day,
+                })
+                .then(({ data }) => {
+                    this.closeModal();
+                    this.$emit("event-created");
+                })
+                .catch((error) => {
+                    this.$emit("error");
+                });
+        },
 
     },
 
