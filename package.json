@@ -2,7 +2,8 @@
     "private": true,
     "scripts": {
         "dev": "vite",
-        "build": "vite build"
+        "build": "vite build",
+        "watch": "vite build --watch"
     },
     "devDependencies": {
         "axios": "^1.1.2",
@@ -10,19 +11,20 @@
         "lodash": "^4.17.19",
         "postcss": "^8.1.14",
         "vite": "^4.0.0",
-        "vue-loader": "^17.2.2",
-        "vue-template-compiler": "^2.7.14"
+        "vue-loader": "^17.0.1"
     },
     "dependencies": {
-        "@fullcalendar/core": "^6.1.8",
-        "@fullcalendar/daygrid": "^6.1.8",
-        "@fullcalendar/interaction": "^6.1.8",
-        "@fullcalendar/list": "^6.1.8",
-        "@fullcalendar/timegrid": "^6.1.8",
-        "@fullcalendar/vue3": "^6.1.8",
+        "@fullcalendar/core": "^6.1.5",
+        "@fullcalendar/daygrid": "^6.1.5",
+        "@fullcalendar/interaction": "^6.1.5",
+        "@fullcalendar/list": "^6.1.5",
+        "@fullcalendar/resource-timeline": "^6.1.5",
+        "@fullcalendar/timegrid": "^6.1.5",
+        "@fullcalendar/vue3": "^6.1.5",
         "@vitejs/plugin-vue": "^4.3.4",
         "admin-lte": "^3.2.0",
-        "vue": "^3.3.4",
+        "jquery-datetimepicker": "^2.5.21",
+        "vue": "^3.2.36",
         "vue-router": "^4.2.4",
         "vuex": "^4.0.2"
     }
