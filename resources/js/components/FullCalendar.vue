@@ -1,5 +1,10 @@
 <template>
-    <FullCalendar :options="calendarOptions" />
+     <div class="card card-primary">
+            <div class="card-body p-0">
+              <FullCalendar :options="calendarOptions" ref="fullcalendar"  />
+            </div>
+          </div>
+    <CreateEventModal/>
 </template>
 
 <script>
@@ -8,10 +13,12 @@ import dayGridPlugin from '@fullcalendar/daygrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import timeGridPlugin from '@fullcalendar/timegrid';
 import listPlugin from "@fullcalendar/list";
+import CreateEventModal from "./CreateEventModal.vue";
 
 export default {
     components: {
-        FullCalendar // make the <FullCalendar> tag available
+        FullCalendar, // make the <FullCalendar> tag available
+        CreateEventModal,
     },
     data() {
         return {
