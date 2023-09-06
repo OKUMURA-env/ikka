@@ -11,7 +11,9 @@
     />
     <show-event-modal
          :show="show_event_details_modal"
+         :currentEvent="currentEvent"
          @close="show_event_details_modal = false" 
+         @event-updated="rerenderCalendar"
            />
 </template>
 
@@ -104,8 +106,27 @@ export default {
             }).show();
         },
         handleEventClick(e) {
-            console.log('ok');
-            this.show_event_details_modal = true;
+            const event = this.createEventObject(e);
+            console.log(event);
+            axios
+                .get("/api/event/" + event.id, event)
+                .then((response) => {
+                    this.currentEvent = response.data;
+                    this.show_event_details_modal = true;
+                })
+                .catch((response) => {
+                    alert("Schedule click has been failed!");
+                });
+        },
+        createEventObject(e) {
+            const event = {};
+            // 注意！
+            // カラムが増えると編集
+            event.id = e.event.id;
+            event.title = e.event.title;
+            event.start = e.event.startStr;
+            event.end = e.event.endStr;
+            return event;
         },
         rerenderCalendar() {
             this.$refs.fullcalendar.getApi().refetchEvents();
