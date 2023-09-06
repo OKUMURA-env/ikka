@@ -71,6 +71,8 @@ export default {
                 weekends: true,
                 dateClick: this.handleDateClick,
                 eventClick: this.handleEventClick,
+                editable: true,
+                eventDrop: this.handleEventDrop,
                 events: function (info, successCallback) {
                     axios
                         .post("api/event/event-get", {
@@ -128,6 +130,22 @@ export default {
             event.start = e.event.startStr;
             event.end = e.event.endStr;
             return event;
+        },
+        handleEventDrop(e) {
+            axios
+                .put("/api/event/" + e.event.id,{   
+                    id: e.event.id,
+                    title: e.event.title,
+                    start: e.event.startStr,
+                    end: e.event.endStr,
+                    all_day: e.event.allDay,
+                })
+                .then(({ data }) => {
+                    this.rerenderCalendar();
+                })
+                .catch((error) => {
+                    this.$emit("error");
+                });
         },
         rerenderCalendar() {
             this.$refs.fullcalendar.getApi().refetchEvents();
