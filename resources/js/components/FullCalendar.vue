@@ -9,6 +9,9 @@
         @close="resetNewEventData"  
         @event-created="newEventCreated"
     />
+    <show-event-modal
+           
+           />
 </template>
 
 <script>
@@ -18,11 +21,13 @@ import interactionPlugin from '@fullcalendar/interaction'
 import timeGridPlugin from '@fullcalendar/timegrid';
 import listPlugin from "@fullcalendar/list";
 import CreateEventModal from "./CreateEventModal.vue";
+import ShowEventModal from "./ShowEventModal.vue";
 
 export default {
     components: {
         FullCalendar, // make the <FullCalendar> tag available
         CreateEventModal,
+        ShowEventModal,
     },
     data() {
         return {
