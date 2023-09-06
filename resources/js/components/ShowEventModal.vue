@@ -75,6 +75,7 @@
                     <button
                         type="button"
                         class="btn btn-danger"
+                        @click="deleteEvent"
                         data-dismiss="modal"
                     >
                         削除
@@ -123,6 +124,17 @@ export default {
                 .then(({ data }) => {
                     this.closeModal();
                     this.$emit("event-updated");
+                })
+                .catch((error) => {
+                    this.$emit("error");
+                });
+        },
+        deleteEvent() {
+            axios
+                .delete("/api/event/" + this.event.id, this.event)
+                .then(({ data }) => {
+                    this.closeModal();
+                    this.$emit("event-deleted");
                 })
                 .catch((error) => {
                     this.$emit("error");
