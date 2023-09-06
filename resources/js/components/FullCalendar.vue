@@ -10,7 +10,8 @@
         @event-created="newEventCreated"
     />
     <show-event-modal
-           
+         :show="show_event_details_modal"
+         @close="show_event_details_modal = false" 
            />
 </template>
 
@@ -32,6 +33,7 @@ export default {
     data() {
         return {
             new_event_modal_open: false,
+            show_event_details_modal: false,
             calendarOptions: {
                 plugins: [
                     dayGridPlugin,
@@ -65,6 +67,7 @@ export default {
                 },
                 weekends: true,
                 dateClick: this.handleDateClick,
+                eventClick: this.handleEventClick,
                 events: function (info, successCallback) {
                     axios
                         .post("api/event/event-get", {
@@ -100,8 +103,11 @@ export default {
                 type: "success",
             }).show();
         },
+        handleEventClick(e) {
+            console.log('ok');
+            this.show_event_details_modal = true;
+        },
         rerenderCalendar() {
-            console.log('ok')
             this.$refs.fullcalendar.getApi().refetchEvents();
             
         },
