@@ -5,7 +5,9 @@
             </div>
           </div>
     <create-event-modal
-        
+        :show="new_event_modal_open"
+        @close="resetNewEventData"  
+        @event-created="newEventCreated"
     />
 </template>
 
@@ -24,6 +26,7 @@ export default {
     },
     data() {
         return {
+            new_event_modal_open: false,
             calendarOptions: {
                 plugins: [
                     dayGridPlugin,
@@ -56,7 +59,7 @@ export default {
                     },
                 },
                 weekends: true,
-                
+                dateClick: this.handleDateClick,
                 events: function (info, successCallback) {
                     axios
                         .post("api/event/event-get", {
@@ -77,8 +80,26 @@ export default {
             }
         }
     },
-    method: {
-       
-    }
+    methods: {
+        handleDateClick() {
+            this.new_event_modal_open = true;
+        },
+        resetNewEventData() {
+            this.new_event_modal_open = false;
+        },
+        newEventCreated() {
+            this.rerenderCalendar();
+            new Noty({
+                text: `Appointment has been created.`,
+                timeout: 1000,
+                type: "success",
+            }).show();
+        },
+        rerenderCalendar() {
+            console.log('ok')
+            this.$refs.fullcalendar.getApi().refetchEvents();
+            
+        },
+    },
 }
 </script>
