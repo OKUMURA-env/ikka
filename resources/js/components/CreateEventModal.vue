@@ -42,6 +42,17 @@
 
                             <li class="list-group-item">
                                 <div class="input-group input-group-seamless">
+                                    <input
+                                        type="checkbox"
+                                        id="all_day"
+                                        v-model="event.all_day"
+                                        checked="checked"
+                                    />終日
+                                </div>
+                            </li>
+
+                            <li class="list-group-item">
+                                <div class="input-group input-group-seamless">
                                     <p>開始</p>
                                     <input
                                         type="date"
@@ -107,6 +118,7 @@ export default {
                 title: null,
                 start_date: "",
                 end_date: "",
+                all_day: true,
             },
         }
     },
@@ -120,6 +132,7 @@ export default {
             this.event.title = null;
             this.event.start_date = null;
             this.event.end_date = null;
+            this.event.all_day = true;
            this.$emit("close");
         },
         saveEvent() {
@@ -132,6 +145,7 @@ export default {
                     title: this.event.title,
                     start: start,
                     end: end,
+                    all_day: this.event.all_day,
                 })
                 .then(({ data }) => {
                     this.closeModal();
