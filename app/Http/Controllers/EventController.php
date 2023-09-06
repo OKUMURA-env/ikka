@@ -73,6 +73,7 @@ class EventController extends Controller
             "title" => $request->title,
             "start" => $request->start,
             "end" => $request->end,
+            "all_day" => $request->all_day,
         ]);
         return response()->json($event);
     }
