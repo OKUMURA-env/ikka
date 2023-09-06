@@ -133,7 +133,9 @@ export default {
             event: {
                 title: null,
                 start_date: "",
+                start_time: "",
                 end_date: "",
+                end_time: "",
                 all_day: true,
             },
         }
@@ -147,13 +149,15 @@ export default {
         closeModal() {
             this.event.title = null;
             this.event.start_date = null;
+            this.event.start_time = "";
             this.event.end_date = null;
+            this.event.end_time = "";
             this.event.all_day = true;
            this.$emit("close");
         },
         saveEvent() {
-            let start = this.event.start_date;
-            let end = this.event.end_date;
+            let start = this.event.start_date + " " + this.event.start_time;
+            let end = this.event.end_date + " " + this.event.end_time;
 
 
             axios
