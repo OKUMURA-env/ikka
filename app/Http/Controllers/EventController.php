@@ -26,6 +26,7 @@ class EventController extends Controller
                 'start',
                 'end',
                 'title',
+                'all_day',
             )
             // FullCalendarの表示範囲のみ表示
             ->where('end', '>', $start)
