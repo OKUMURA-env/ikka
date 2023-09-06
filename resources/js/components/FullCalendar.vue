@@ -1,21 +1,62 @@
 <template>
-     <div class="card card-primary">
-            <div class="card-body p-0">
-              <FullCalendar :options="calendarOptions" ref="fullcalendar"  />
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Calendar</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item">Logout</li>
+                    </ol>
+                </div>
             </div>
-          </div>
-    <create-event-modal
-        :show="new_event_modal_open"
-        @close="resetNewEventData"  
-        @event-created="newEventCreated"
-    />
-    <show-event-modal
-         :show="show_event_details_modal"
-         :currentEvent="currentEvent"
-         @close="show_event_details_modal = false" 
-         @event-updated="rerenderCalendar"
-         @event-deleted="rerenderCalendar"
-           />
+        </div>
+    </section>
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="sticky-top mb-3">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title">Schedule Category</h4>
+                            </div>
+                            <div class="card-body">
+                                <!-- <div id="external-events">
+                  <div class="external-event bg-success">Lunch</div>
+                  <div class="external-event bg-warning">Go home</div>
+                  <div class="external-event bg-info">Do homework</div>
+                  <div class="external-event bg-primary">Work on UI design</div>
+                  <div class="external-event bg-danger">Sleep tight</div>
+                  <div class="checkbox">
+                    <label for="drop-remove">
+                      <input type="checkbox" id="drop-remove" />
+                      remove after drop
+                    </label>
+                  </div>
+                </div> -->
+                            </div>
+                        </div>
+
+                        
+                    </div>
+                </div>
+                <div class="col-md-9">
+                    <div class="card card-primary">
+                        <div class="card-body p-0">
+                            <FullCalendar :options="calendarOptions" ref="fullcalendar" />
+                        </div>
+                    </div>
+                    <create-event-modal :show="new_event_modal_open" @close="resetNewEventData"
+                        @event-created="newEventCreated" />
+                    <show-event-modal :show="show_event_details_modal" :currentEvent="currentEvent"
+                        @close="show_event_details_modal = false" @event-updated="rerenderCalendar"
+                        @event-deleted="rerenderCalendar" />
+                </div>
+            </div>
+        </div>
+    </section>
 </template>
 
 <script>
@@ -134,7 +175,7 @@ export default {
         },
         handleEventDrop(e) {
             axios
-                .put("/api/event/" + e.event.id,{   
+                .put("/api/event/" + e.event.id, {
                     id: e.event.id,
                     title: e.event.title,
                     start: e.event.startStr,
@@ -152,7 +193,7 @@ export default {
         //イベントの期間を変更
         eventResize(e) {
             axios
-                .put("/api/event/" + e.event.id, {   
+                .put("/api/event/" + e.event.id, {
                     id: e.event.id,
                     title: e.event.title,
                     start: e.event.startStr,
@@ -168,7 +209,7 @@ export default {
         },
         rerenderCalendar() {
             this.$refs.fullcalendar.getApi().refetchEvents();
-            
+
         },
     },
 }
