@@ -43,6 +43,17 @@
 
                             <li class="list-group-item">
                                 <div class="input-group input-group-seamless">
+                                    <input
+                                        type="checkbox"
+                                        id="all_day"
+                                        v-model="event.all_day"
+                                        checked="checked"
+                                    />終日
+                                </div>
+                            </li>
+
+                            <li class="list-group-item">
+                                <div class="input-group input-group-seamless">
                                     <p>開始</p>
                                     <input
                                         type="date"
@@ -51,18 +62,33 @@
                                         ref="eventStartDate"
                                         autofocus
                                     />
+                                    <input
+                                        v-if="!event.all_day"
+                                        type="time"
+                                        class="form-control w-100 modal-title"
+                                        v-model="event.start_time"
+                                        ref="eventStartTime"
+                                        autofocus
+                                    />
                                 </div>
                             </li>
 
                             <li class="list-group-item">
                                 <div class="input-group input-group-seamless">
-                                    <p>終了</p>
-                                    
+                                    <p>終了</p>    
                                     <input
                                         type="date"
                                         class="form-control w-100 modal-title"
                                         v-model="event.end_date"
                                         ref="eventEndDate"
+                                        autofocus
+                                    />
+                                    <input
+                                        v-if="!event.all_day"
+                                        type="time"
+                                        class="form-control w-100 modal-title"
+                                        v-model="event.end_time"
+                                        ref="eventEndTime"
                                         autofocus
                                     />
                                 </div>
@@ -120,6 +146,7 @@ export default {
                     title: this.event.title,
                     start: this.event.start_date,
                     end: this.event.end_date,
+                    all_day: this.event.all_day,
                 })
                 .then(({ data }) => {
                     this.closeModal();
