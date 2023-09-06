@@ -1,5 +1,7 @@
 <template>
    <div
+        v-if="show"
+        class="modal show display"
         v-cloak
         tabindex="-1"
         aria-labelledby="CreateEventModal"
@@ -96,6 +98,7 @@
 <script>
 
 export default {
+    props: ["show"],
     components: {
     },
     data() {
@@ -117,7 +120,7 @@ export default {
             this.event.title = null;
             this.event.start_date = null;
             this.event.end_date = null;
-           
+           this.$emit("close");
         },
         saveEvent() {
             let start = this.event.start_date;
@@ -129,7 +132,6 @@ export default {
                     title: this.event.title,
                     start: start,
                     end: end,
-                    all_day: this.event.all_day,
                 })
                 .then(({ data }) => {
                     this.closeModal();
