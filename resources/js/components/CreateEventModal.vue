@@ -61,6 +61,14 @@
                                         ref="eventStartDate"
                                         autofocus
                                     />
+                                    <input
+                                        v-if="!event.all_day"
+                                        type="time"
+                                        class="form-control w-100 modal-title"
+                                        v-model="event.start_time"
+                                        ref="eventStartTime"
+                                        autofocus
+                                    />
                                 </div>
                             </li>
 
@@ -72,6 +80,14 @@
                                         class="form-control w-100 modal-title"
                                         v-model="event.end_date"
                                         ref="eventEndDate"
+                                        autofocus
+                                    />
+                                    <input
+                                        v-if="!event.all_day"
+                                        type="time"
+                                        class="form-control w-100 modal-title"
+                                        v-model="event.end_time"
+                                        ref="eventEndTime"
                                         autofocus
                                     />
                                 </div>
