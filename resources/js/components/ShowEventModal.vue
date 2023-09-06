@@ -1,5 +1,6 @@
 <template>
      <div
+        v-if="show"
         class="modal show display"
         v-cloak
         tabindex="-1"
@@ -17,6 +18,7 @@
                         type="button"
                         class="btn-close"
                         data-bs-dismiss="modal"
+                        @click="closeModal"
                         aria-label="Close"
                     ></button>
                 </div>
@@ -26,7 +28,7 @@
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item">
                                 <div class="input-group input-group-seamless">
-                                    <label for="eventTitle">タイトル</label>
+                                    <p>タイトル</p>
                                     <input
                                         type="text"
                                         class="form-control w-100 modal-title"
@@ -39,7 +41,7 @@
 
                             <li class="list-group-item">
                                 <div class="input-group input-group-seamless">
-                                    <label for="scheduleTitle">開始</label>
+                                    <p>開始</p>
                                     <input
                                         type="date"
                                         class="form-control w-100 modal-title"
@@ -51,7 +53,8 @@
 
                             <li class="list-group-item">
                                 <div class="input-group input-group-seamless">
-                                    <label for="scheduleTitle">終了</label>
+                                    <p>終了</p>
+                                    
                                     <input
                                         type="date"
                                         class="form-control w-100 modal-title"
@@ -91,6 +94,7 @@ import { stringifyStyle } from "@vue/shared";
 import axios from "axios";
 
 export default {
+    props: ["show"],
     data() {
         return {
             event: {},
@@ -99,6 +103,9 @@ export default {
     },
 
     methods: {
+        closeModal() {
+            this.$emit("close");  
+        },
        
     },
 
