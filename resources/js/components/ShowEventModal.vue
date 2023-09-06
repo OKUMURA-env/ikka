@@ -182,10 +182,37 @@ export default {
     // watchを使わないと、eventが編集できない。
     watch: {
         currentEvent(currentEvent) {
+            console.log(currentEvent.all_day);
+            if (currentEvent.all_day == 0) {
+                console.log(currentEvent.start.slice(0, 10));
+                let start_date = currentEvent.start.slice(0, 10);
+                let start_time = currentEvent.start.slice(11, 16);
+                let end_date = currentEvent.end.slice(0, 10);
+                let end_time = currentEvent.end.slice(11, 16);
+                var Event = {
+                    id: currentEvent.id,
+                    title: currentEvent.title,
+                    start_date: start_date,
+                    start_time: start_time,
+                    end_date: end_date,
+                    end_time: end_time,
+                    all_day: false,
+                };
+            }
+            if (currentEvent.all_day == 1) {
+                var Event = {
+                    id: currentEvent.id,
+                    title: currentEvent.title,
+                    start_date: currentEvent.start,
+                    end_date: currentEvent.end,
+                    all_day: true,
+                };
+            }   
+        
             // ※ JSON.parse(JSON.stringify(currentEvent));
             // 検索結果のスケジュールからモーダルを起動させた場合、スケジュールに合わせて、
             // 検索結果上の予定も変更されてしまうため。
-            this.event = JSON.parse(JSON.stringify(currentEvent));
+            this.event = JSON.parse(JSON.stringify(Event));
         },
     },
 
