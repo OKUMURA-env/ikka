@@ -149,6 +149,33 @@ export default {
 
             let start = this.event.start_date + " " + this.event.start_time;
             let end = this.event.end_date + " " + this.event.end_time;
+
+            if (start >= end) {
+                alert("終了日は開始日より後に設定してください。");
+                return;
+            }
+
+            //終日をチェックしてないとき、時間フォームを空のまま登録できないようにする。
+            if(!all_day && this.event.start_time === undefined){
+                alert("終日にチェックするか、時間を指定してください。");
+                return;
+            }
+
+            if(!all_day && this.event.start_time === ""){
+                alert("終日にチェックするか、時間を指定してください。");
+                return;
+            }
+            
+            if(!all_day && this.event.end_time === undefined){
+                alert("終日にチェックするか、時間を指定してください。");
+                return;
+            }
+
+            if(!all_day && this.event.end_time === ""){
+                alert("終日にチェックするか、時間を指定してください。");
+                return;
+            }
+
             axios
                 .put("/api/event/" + this.event.id, {
                     id: this.event.id,
