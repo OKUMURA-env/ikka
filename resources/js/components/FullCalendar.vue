@@ -14,6 +14,7 @@
          :currentEvent="currentEvent"
          @close="show_event_details_modal = false" 
          @event-updated="rerenderCalendar"
+         @event-deleted="rerenderCalendar"
            />
 </template>
 
