@@ -14,6 +14,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">詳細</h5>
+                    {{ event }}
                     <button
                         type="button"
                         class="btn-close"
@@ -32,6 +33,7 @@
                                     <input
                                         type="text"
                                         class="form-control w-100 modal-title"
+                                        v-model="event.title"
                                         placeholder="Add title ..."
                                         ref="eventTitle"
                                         autofocus
@@ -45,6 +47,7 @@
                                     <input
                                         type="date"
                                         class="form-control w-100 modal-title"
+                                        v-model="event.start_date"
                                         ref="eventStartDate"
                                         autofocus
                                     />
@@ -58,6 +61,7 @@
                                     <input
                                         type="date"
                                         class="form-control w-100 modal-title"
+                                        v-model="event.end_date"
                                         ref="eventEndDate"
                                         autofocus
                                     />
@@ -78,6 +82,7 @@
                     <button
                         type="button"
                         class="btn btn-primary"
+                        @click="updateEvent"
                     >
                         更新
                     </button>
@@ -94,7 +99,7 @@ import { stringifyStyle } from "@vue/shared";
 import axios from "axios";
 
 export default {
-    props: ["show"],
+    props: ["show", "currentEvent"],
     data() {
         return {
             event: {},
@@ -106,7 +111,34 @@ export default {
         closeModal() {
             this.$emit("close");  
         },
+        updateEvent() {
+            console.log(this.event.id);
+            axios
+                .put("/api/event/" + this.event.id, {
+                    id: this.event.id,
+                    title: this.event.title,
+                    start: this.event.start_date,
+                    end: this.event.end_date,
+                })
+                .then(({ data }) => {
+                    this.closeModal();
+                    this.$emit("event-updated");
+                })
+                .catch((error) => {
+                    this.$emit("error");
+                });
+        },
        
+    },
+      // 注意！
+    // watchを使わないと、eventが編集できない。
+    watch: {
+        currentEvent(currentEvent) {
+            // ※ JSON.parse(JSON.stringify(currentEvent));
+            // 検索結果のスケジュールからモーダルを起動させた場合、スケジュールに合わせて、
+            // 検索結果上の予定も変更されてしまうため。
+            this.event = JSON.parse(JSON.stringify(currentEvent));
+        },
     },
 
  
