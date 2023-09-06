@@ -139,13 +139,22 @@ export default {
             this.$emit("close");  
         },
         updateEvent() {
-            console.log(this.event.id);
+            let all_day = this.event.all_day;
+
+            //終日のときにtimeの値がundifinedになるのを防ぐため
+            if(all_day){
+                this.event.start_time = "";
+                this.event.end_time = "";
+            }
+
+            let start = this.event.start_date + " " + this.event.start_time;
+            let end = this.event.end_date + " " + this.event.end_time;
             axios
                 .put("/api/event/" + this.event.id, {
                     id: this.event.id,
                     title: this.event.title,
-                    start: this.event.start_date,
-                    end: this.event.end_date,
+                    start: start,
+                    end: end,
                     all_day: this.event.all_day,
                 })
                 .then(({ data }) => {
