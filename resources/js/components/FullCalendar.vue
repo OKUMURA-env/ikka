@@ -36,6 +36,7 @@
                     </label>
                   </div>
                 </div> -->
+                <schedule-categories/>
                             </div>
                         </div>
 
@@ -65,6 +66,7 @@ import dayGridPlugin from '@fullcalendar/daygrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import timeGridPlugin from '@fullcalendar/timegrid';
 import listPlugin from "@fullcalendar/list";
+import ScheduleCategories from "./ScheduleCategories/List.vue";
 import CreateEventModal from "./CreateEventModal.vue";
 import ShowEventModal from "./ShowEventModal.vue";
 
@@ -73,6 +75,7 @@ export default {
         FullCalendar, // make the <FullCalendar> tag available
         CreateEventModal,
         ShowEventModal,
+        ScheduleCategories,
     },
     data() {
         return {
