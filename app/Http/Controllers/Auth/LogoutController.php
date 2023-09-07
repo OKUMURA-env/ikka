@@ -16,7 +16,7 @@ class LogoutController extends Controller
      */
     public function __invoke(Request $request)
     {
-        Auth::logout();
-        return response()->json(['status_code' => 200,'message' => 'Logged out'], 200);
+        auth('sanctum')->user()->tokens()->delete();
+        return response(['message' => 'You have been successfully logged out.'], 200);
     }
 }
