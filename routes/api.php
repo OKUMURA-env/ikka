@@ -22,12 +22,17 @@ use App\Http\Controllers\Auth\LogoutController;
 Route::post('/register', [RegisterController::class, 'register']);
 // ログイン
 Route::post('/login', [LoginController::class, 'login']);
-//ログアウト
-Route::post('/logout', LogoutController::class);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('event/event-get',[App\Http\Controllers\EventController::class,'eventGet']);
-Route::resource('event',App\Http\Controllers\EventController::class)->only(['store','show','update','destroy']);
+Route::middleware('auth:sanctum')->group(function () {
+    //ログアウト
+    Route::post('/logout', LogoutController::class)->middleware('auth:sanctum');
+
+    //Event crud
+    Route::post('event/event-get',[App\Http\Controllers\EventController::class,'eventGet']);
+    Route::resource('event',App\Http\Controllers\EventController::class)->only(['store','show','update','destroy']);
+});
+
