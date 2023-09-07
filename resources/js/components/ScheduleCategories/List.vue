@@ -1,19 +1,25 @@
 <template>
-    <h1>テスト</h1>
+   <h1>テスト</h1>
 </template>
 
 <script>
-import axios from "axios";
+
 
 export default {
-    props: [],
+    components: {
+      
+    },
     data() {
         
     },
 
-    methods: {
-        
+    mounted() {
+       
     },
-
+    methods: {
+      
+    },
 };
+
 </script>
+
