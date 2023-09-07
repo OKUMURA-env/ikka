@@ -7,7 +7,7 @@
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item">Logout</li>
+                        <li class="breadcrumb-item" @click = "logout">Logout</li>
                     </ol>
                 </div>
             </div>
@@ -214,6 +214,27 @@ export default {
             this.$refs.fullcalendar.getApi().refetchEvents();
 
         },
+        logout() {
+            axios
+                .get('/sanctum/csrf-cookie')
+                .then((res) => {
+                axios
+                    .post("/api/logout",res)
+                    .then(({ res }) => {
+                    console.log(res);
+                    console.log(localStorage.getItem("token"));
+                    localStorage.removeItem("token");
+                    console.log(localStorage.getItem("token"));
+                    this.$router.push("/login");
+                    })
+                    .catch((error) => {
+                    console.log('error');
+                    });
+                })
+                .catch((err) => {
+                //
+                });
+            }
     },
 }
 </script>
