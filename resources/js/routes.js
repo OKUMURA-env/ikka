@@ -2,6 +2,7 @@ import ExampleComponent from './components/Example.vue';
 import { createRouter, createWebHistory } from 'vue-router';
 import FullCalendarComponent from './components/FullCalendar.vue';
 import RegisterComponent from './components/Auth/Register.vue';
+import LoginComponent from './components/Auth/Login.vue';
 
 const routes = [
     {
@@ -13,6 +14,11 @@ const routes = [
         path: "/register",
         component: RegisterComponent,
         name:'register',
+    },
+    {
+        path: "/login",
+        component: LoginComponent,
+        name:'login',
     },
     {
         path: "/calendar",
