@@ -3,36 +3,45 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
-use App\Models\Sanctum\PersonalAccessToken;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Validator;
-use \Symfony\Component\HttpFoundation\Response;
+use Illuminate\Validation\ValidationException;
+
+use App\Models\User;
+use Illuminate\Support\Facades\Log;
+use Throwable;
 
 class LoginController extends Controller
 {
     public function login(Request $request)
     {
         // バリデーション
-        $validator = Validator::make($request->all(), [
-            'email' => ['required', 'email'],
-            'password' => ['required']
+        $request->validate([
+            'email' => 'required',
+            'password' => 'required'
         ]);
 
-        if ($validator->fails()) {
-            return response()->json($validator->messages(), Response::HTTP_UNPROCESSABLE_ENTITY);
-        }
-
-        // ユーザー認証
-        if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
+        try
+        {
             $user = User::where('email', $request->email)->first();
-            $user->tokens()->delete();
-            $token = $user->createToken("login:user{$user->id}")->plainTextToken;
 
-            return response()->json(['token' => $token ], Response::HTTP_OK);
+            if(!$user || !Hash::check($request->password, $user->password)) {
+                throw ValidationException::withMessages([
+                    'email' => ['The provided credentials are incorrect.'],
+                ]);
+            }
+
+            $token = $user->createToken('auth_token')->plainTextToken;
+
+            Log::info($user->name.' がログインしました。');
+
+            return response()->json(['access_token' => $token, 'token_type' => 'Bearer']);
         }
-
-        return response()->json('User unauthorized', Response::HTTP_UNAUTHORIZED);
+        catch(Throwable $e)
+        {
+            Log::error('ログインに失敗しました。');
+            return response()->json(['message' => 'ログインに失敗しました。ログインIDとパスワードをご確認ください。'], 500);
+        }
     }
 }

@@ -3,38 +3,29 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
 use Illuminate\Http\Request;
+
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
-use \Symfony\Component\HttpFoundation\Response;
+use Illuminate\Validation\ValidationException;
+use App\Models\User;
 
 class RegisterController extends Controller
 {
     public function register(Request $request)
     {
-        /** 
-         * @var Illuminate\Validation\Validator $validator 
-         * 
-         */
        // バリデーション
-       $validator = Validator::make($request->all(), [
-        'name' => ['required'],
-        'email' => ['required', 'email'],
-        'password' => ['required']
+       $request->validate([
+        'name' => 'required|string|max:255',
+        'email' => 'required|string|email|max:255|unique:users',
+        'password' => 'required|string|confirmed|min:8',
     ]);
 
-    if ($validator->fails()) {
-        return response()->json($validator->messages(), Response::HTTP_UNPROCESSABLE_ENTITY);
-    }
-
-    // ユーザーを作成
     $user = User::create([
-        'name' => $request->name,
-        'email' => $request->email,
-        'password' => Hash::make($request->password),
+        'name' => $request->input('name'),
+        'email' => $request->input('email'),
+        'password' => Hash::make($request->input('password')),
     ]);
 
-    return response()->json('User registration completed', Response::HTTP_OK);
+    return response()->json(['message' => 'User registered'], 201);
     }
 }

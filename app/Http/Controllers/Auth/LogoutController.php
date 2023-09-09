@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+use Throwable;
+use App\Models\User;
 
 class LogoutController extends Controller
 {
@@ -16,7 +18,17 @@ class LogoutController extends Controller
      */
     public function __invoke(Request $request)
     {
-        auth('sanctum')->user()->tokens()->delete();
-        return response(['message' => 'You have been successfully logged out.'], 200);
+        // dd(auth('sanctum')->user()->name);
+        try{
+            $user = auth('sanctum')->user();
+            $user->tokens()->delete();
+            Log::info($user->name.' がログアウトしました。');
+            return response()->json(['message' => 'User logged out successfully']);
+        }
+        catch(Throwable $e)
+        {
+            Log::error($user->name.' がログアウトに失敗しました。');
+            return response()->json(['message' => 'ログアウトに失敗しました。']);
+        }
     }
 }
