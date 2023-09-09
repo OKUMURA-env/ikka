@@ -26,11 +26,11 @@
       <!-- /.content-wrapper -->
   
       <!-- Control sidebar content goes here -->
-      <!-- <ControlSidebar></ControlSidebar> -->
+      <Controlbar></Controlbar>
       <!-- /.Control sidebar content goes here -->
       
       <!-- footer -->
-      <!-- <Footer></Footer> -->
+      <Footer></Footer>
       <!-- /.footer -->
   
     </div>
@@ -39,13 +39,16 @@
   <script>
   import Header from "./Header.vue";
   import Sidebar from "./Sidebar.vue";
+  import Controlbar from "./Controlbar.vue";
+  import Footer from "./Footer.vue";
  
   
   export default {
     components: {
       Header,
       Sidebar,
-      
+      Controlbar,
+      Footer,
     },
   };
   </script>
