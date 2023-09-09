@@ -1,14 +1,10 @@
 <template>
+    <AdminLayout>
     <section class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
                     <h1>Calendar</h1>
-                </div>
-                <div class="col-sm-6">
-                    <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item" @click = "logout">Logout</li>
-                    </ol>
                 </div>
             </div>
         </div>
@@ -58,6 +54,7 @@
             </div>
         </div>
     </section>
+    </AdminLayout>
 </template>
 
 <script>
@@ -66,12 +63,14 @@ import dayGridPlugin from '@fullcalendar/daygrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import timeGridPlugin from '@fullcalendar/timegrid';
 import listPlugin from "@fullcalendar/list";
+import AdminLayout from "./Layouts/AdminLayout.vue"
 import ScheduleCategories from "./ScheduleCategories/List.vue";
 import CreateEventModal from "./CreateEventModal.vue";
 import ShowEventModal from "./ShowEventModal.vue";
 
 export default {
     components: {
+        AdminLayout,
         FullCalendar, // make the <FullCalendar> tag available
         CreateEventModal,
         ShowEventModal,
@@ -214,27 +213,6 @@ export default {
             this.$refs.fullcalendar.getApi().refetchEvents();
 
         },
-        logout() {
-            axios
-                .get('/sanctum/csrf-cookie')
-                .then((res) => {
-                axios
-                    .post("/api/logout",res)
-                    .then(({ res }) => {
-                    console.log(res);
-                    console.log(localStorage.getItem("token"));
-                    localStorage.removeItem("token");
-                    console.log(localStorage.getItem("token"));
-                    this.$router.push("/login");
-                    })
-                    .catch((error) => {
-                    console.log('error');
-                    });
-                })
-                .catch((err) => {
-                //
-                });
-            }
     },
 }
 </script>
