@@ -51,9 +51,20 @@ export default {
         };
     },
     mounted() {
-
+        this.getDrivers();
     },
     methods: {
+        getDrivers() {
+            axios
+                .get("/api/drivers")
+                .then((response) => {
+                    this.drivers = response.data.drivers;
+                    console.log(this.drivers);
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        },
 
     },
 }
