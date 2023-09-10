@@ -27,12 +27,17 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::middleware('auth:sanctum')->group(function () {
+Route::middleware(['auth:sanctum'])->group(function () {
+
     //ログアウト
-    Route::post('/logout', LogoutController::class)->middleware('auth:sanctum');
+    Route::post('/logout', LogoutController::class);
+
+    //ログインユーザー取得
+    Route::get('/user-get',[App\Http\Controllers\UserController::class,'userGet']);
 
     //Event crud
     Route::post('event/event-get',[App\Http\Controllers\EventController::class,'eventGet']);
     Route::resource('event',App\Http\Controllers\EventController::class)->only(['store','show','update','destroy']);
-});
 
+});
+    
