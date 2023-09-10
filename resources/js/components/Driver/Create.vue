@@ -9,6 +9,7 @@
                         <label class="control-label">名前</label>
                         <input class="form-control" 
                                type="text"
+                               v-model="driver.name" 
                         />
                     </div>
 
@@ -16,6 +17,7 @@
                         <label class="control-label">メールアドレス</label>
                         <input class="form-control" 
                                type="text"
+                               v-model="driver.email" 
                         />
                     </div>
 
@@ -23,6 +25,7 @@
                         <label class="control-label">スケジュール表示名</label>
                         <input class="form-control" 
                                type="text"
+                               v-model="driver.display_name"
                          />
                     </div>
 
@@ -66,6 +69,16 @@ export default {
 
     },
     methods: {
+        submit() {
+            axios
+                .post("/api/drivers", this.driver)
+                .then((res) => {
+                    this.$router.push({ name: "driver.list" });
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        },
 
     },
 }
