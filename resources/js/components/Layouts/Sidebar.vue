@@ -11,7 +11,7 @@
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
 
             <li class="nav-item">
-                <a href="http://localhost/calendar" class="nav-link active">
+                <a href="http://localhost/calendar" class="nav-link">
                     <i class="nav-icon far fa-calendar-alt"></i>
                     <p>
                         Calendar
