@@ -1,4 +1,5 @@
 <template>
+    <AdminLayout>
    <div class="container">
         <div class="panel panel-default">
             <div class="panel-heading">ドライバー編集</div>
@@ -43,9 +44,15 @@
             </div>
         </div>
     </div>
+</AdminLayout>
 </template>  
 <script>
+import AdminLayout from "../Layouts/AdminLayout.vue"
+
 export default {
+    components: {
+        AdminLayout,
+    },
     props: ["driverId"],
     data() {
         return {
