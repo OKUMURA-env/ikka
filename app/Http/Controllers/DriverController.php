@@ -55,7 +55,13 @@ class DriverController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $driver = Driver::where("id",$request->id)->update([
+            "name" => $request->name,
+            "email" => $request->email,
+            "display_name" => $request->display_name,
+            "other" => $request->other,
+        ]);
+        return response()->json($driver);
     }
 
     /**
