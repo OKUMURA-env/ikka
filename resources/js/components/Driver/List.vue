@@ -34,7 +34,7 @@
                         </router-link>
                     </td>
                     <td>
-                        <button class="btn btn-danger">
+                        <button  v-on:click="deleteDriver(driver.id)" class="btn btn-danger">
                             削除
                         </button>
                     </td>
@@ -72,7 +72,16 @@ export default {
                     console.log(error);
                 });
         },
-
+        deleteDriver(id) {
+            axios
+                .delete("/api/drivers/" + id, this.driver)
+                .then((response) => {
+                    this.getDrivers();
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        },
     },
 }
 
