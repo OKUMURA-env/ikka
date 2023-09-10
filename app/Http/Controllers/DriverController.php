@@ -14,7 +14,10 @@ class DriverController extends Controller
      */
     public function index()
     {
-     //
+        $drivers = Driver::all();
+        return response()->json([
+            'drivers' => $drivers,
+        ]);
     }
 
     /**
