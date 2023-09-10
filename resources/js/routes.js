@@ -3,6 +3,9 @@ import { createRouter, createWebHistory } from 'vue-router';
 import FullCalendarComponent from './components/FullCalendar.vue';
 import RegisterComponent from './components/Auth/Register.vue';
 import LoginComponent from './components/Auth/Login.vue';
+import DriverListComponent from './components/Driver/List.vue';
+import DriverCreateComponent from './components/Driver/Create.vue';
+import DriverEditComponent from './components/Driver/Edit.vue';
 
 const routes = [
     {
@@ -24,6 +27,22 @@ const routes = [
         path: "/calendar",
         component: FullCalendarComponent,
         name:'calendar',
+    },
+    {
+        path: "/driver",
+        component: DriverListComponent,
+        name:'driver.list',
+    },
+    {
+        path: "/driver/create",
+        component: DriverCreateComponent,
+        name:'driver.create',
+    },
+    {
+        path: "/driver/:driverId/edit",
+        name: "driver.edit",
+        component: DriverEditComponent,
+        props: true,
     },
 ];
 
