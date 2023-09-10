@@ -24,7 +24,14 @@
                     <td>{{ driver.display_name }}</td>
                     <td>{{ driver.other }}</td>
                     <td>
+                        <router-link
+                            v-bind:to="{
+                                name: 'driver.edit',
+                                params: { driverId: driver.id },
+                            }"
+                        >
                             <button class="btn btn-success">編集</button>
+                        </router-link>
                     </td>
                     <td>
                         <button class="btn btn-danger">
