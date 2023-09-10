@@ -42,7 +42,8 @@ class DriverController extends Controller
      */
     public function show($id)
     {
-        //
+        $driver = Driver::find($driverId);
+        return response()->json($driver);
     }
 
     /**
