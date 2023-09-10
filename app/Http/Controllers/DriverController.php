@@ -40,7 +40,7 @@ class DriverController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($driverId)
     {
         $driver = Driver::find($driverId);
         return response()->json($driver);
