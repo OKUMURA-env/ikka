@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Driver;
 
 class DriverController extends Controller
 {
@@ -13,7 +14,7 @@ class DriverController extends Controller
      */
     public function index()
     {
-        //
+     //
     }
 
     /**
@@ -24,7 +25,10 @@ class DriverController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $driver = Driver::create($request->post());
+        return response()->json([
+            'driver' => $driver
+        ]);
     }
 
     /**
