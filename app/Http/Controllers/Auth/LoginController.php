@@ -36,7 +36,7 @@ class LoginController extends Controller
 
             Log::info($user->name.' がログインしました。');
 
-            return response()->json(['access_token' => $token, 'token_type' => 'Bearer']);
+            return response()->json(['access_token' => $token, 'token_type' => 'Bearer', 'user' => $user]);
         }
         catch(Throwable $e)
         {
