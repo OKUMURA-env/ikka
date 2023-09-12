@@ -4,7 +4,7 @@ import 'admin-lte';
 
 import router from './routes';
 import { createApp } from 'vue';
-import store from './store'
+import  store  from './store'
 
 // axios のリクエストに Authorization ヘッダーを設定
 axios.interceptors.request.use((config) => {
@@ -17,5 +17,6 @@ axios.interceptors.request.use((config) => {
 
 const app = createApp({})
 app.use(router)
+app.use(store)
 app.mount('#app');
 
