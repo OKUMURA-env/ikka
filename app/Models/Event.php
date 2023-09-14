@@ -13,6 +13,7 @@ class Event extends Model
         'title',
         'start',
         'end',
+        'driver_id',
         'all_day',
     ];
 
