@@ -31,17 +31,29 @@
                                 </li>
                             </ul>
                         </div>
-                        {{ searchedEvents }}
-                        <table>
-                            <tr v-for="event in searchedEvents" :key="event.id">
-                                <td v-text="event.id"></td>
-                                <td v-text="event.title"></td>
-                            </tr>
-                        </table>
+                        {{ searched_events }}
                     </div>
                 </div>
             </div>
         </div>
+       
+        <div class="container mt-3" v-for="event in searchedEvents" :key="event.id">
+            <div class="row">
+                <div class="col-12 col-sm-6 ml-0 mr-auto">
+                    <div class="card">
+                        <div class="card-body">
+                            <table>
+                                <tr>
+                                    <td v-text="event.id"></td>
+                                    <td v-text="event.title"></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 </template>
 
@@ -84,9 +96,9 @@ export default {
             var searched_events = [];
             for (var i in this.all_events) {
                 var event = this.all_events[i];
-                if(this.keyword && event.title?.includes(this.keyword)){
-                    searched_events.push(event);
-                }
+                    if(this.keyword && event.title?.includes(this.keyword)){
+                        searched_events.push(event);
+                    }
             }
             return searched_events;
         },
