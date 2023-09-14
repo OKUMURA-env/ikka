@@ -26,6 +26,7 @@ class EventController extends Controller
                 'start',
                 'end',
                 'title',
+                'driver_id',
                 'all_day',
             )
             // FullCalendarの表示範囲のみ表示
@@ -73,6 +74,7 @@ class EventController extends Controller
             "title" => $request->title,
             "start" => $request->start,
             "end" => $request->end,
+            "driver_id" => $request->driver_id,
             "all_day" => $request->all_day,
         ]);
         return response()->json($event);
