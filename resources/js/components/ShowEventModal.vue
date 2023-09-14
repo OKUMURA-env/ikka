@@ -42,6 +42,11 @@
                             </li>
 
                             <li class="list-group-item">
+                                <driver-select
+                                />
+                            </li>
+
+                            <li class="list-group-item">
                                 <div class="input-group input-group-seamless">
                                     <input
                                         type="checkbox"
@@ -124,9 +129,13 @@
 <script>
 import { stringifyStyle } from "@vue/shared";
 import axios from "axios";
+import DriverSelect from "./Select/DriverSelect.vue";
 
 export default {
     props: ["show", "currentEvent"],
+    components: {
+        DriverSelect,
+    },
     data() {
         return {
             event: {},
