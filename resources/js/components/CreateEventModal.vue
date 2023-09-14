@@ -42,6 +42,9 @@
 
                             <li class="list-group-item">
                                 <driver-select
+                                    :drivers="drivers"
+                                    @change="handleDriverChange"
+                                    :driverId="driverId"
                                 />
                             </li>
 
@@ -139,6 +142,7 @@ export default {
         return {
             event: {
                 title: null,
+                driver_id: "",
                 start_date: "",
                 start_time: "",
                 end_date: "",
@@ -149,10 +153,18 @@ export default {
     },
 
     mounted() {
-        
+        this.getDrivers();
     },
 
     methods: {
+        getDrivers() {
+            axios
+                .get("/api/drivers")
+                .then((response) => {
+                    this.drivers = response.data.drivers;
+                })
+                .catch((error) => {});
+        },
         closeModal() {
             this.event.title = null;
             this.event.start_date = null;
@@ -160,6 +172,7 @@ export default {
             this.event.end_date = null;
             this.event.end_time = "";
             this.event.all_day = true;
+            this.event.driver_id = "";
            this.$emit("close");
         },
         saveEvent() {
@@ -198,6 +211,7 @@ export default {
                     title: this.event.title,
                     start: start,
                     end: end,
+                    driver_id: this.driverId,
                     all_day: this.event.all_day,
                 })
                 .then(({ data }) => {
@@ -207,6 +221,10 @@ export default {
                 .catch((error) => {
                     this.$emit("error");
                 });
+        },
+
+        handleDriverChange(event, display_name) {
+            this.driverId = event.target.value;
         },
 
     },
