@@ -90,10 +90,8 @@
             await axios
               .post("/api/login", this.user)
               .then((response => {
-                console.log(response.data.access_token);
                   // Save the authToken in localStorage
                   localStorage.setItem("authToken", response.data.access_token);
-                  console.log(this.user);
                   this.$router.replace({ name: "calendar" });
               }))
           } catch(response) {
