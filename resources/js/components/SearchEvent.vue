@@ -20,6 +20,28 @@
                                     <div
                                         class="input-group input-group-seamless"
                                     >
+                                        <select
+                                            class="form-control"
+                                            v-model="selectedDriverId"
+                                        >
+                                            <option value="allDriver">
+                                                すべてのドライバー
+                                            </option>
+                                            <option
+                                                v-for="driver in drivers"
+                                                v-bind:value="driver.id"
+                                                v-bind:key="driver.id"
+                                            >
+                                                {{ driver.name }}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </li>
+
+                                <li class="list-group-item">
+                                    <div
+                                        class="input-group input-group-seamless"
+                                    >
                                         <button
                                             type="button"
                                             class="btn btn-secondary"
@@ -46,6 +68,7 @@
                                 <tr>
                                     <td v-text="event.id"></td>
                                     <td v-text="event.title"></td>
+                                    <td v-text="event.driver_id"></td>
                                 </tr>
                             </table>
                         </div>
@@ -65,11 +88,14 @@ export default {
         return {
             all_events:[],
             searched_events:{},
+            drivers: "",
             keyword: "",
+            selectedDriverId: "allDriver",
         };
     },
     mounted() {
         this.getEvents();
+        this.getDrivers();
     },
 
     methods: {
@@ -86,8 +112,18 @@ export default {
                 });
         },
 
+        getDrivers() {
+            axios
+                .get("/api/drivers")
+                .then((response) => {
+                    this.drivers = response.data.drivers;
+                })
+                .catch((error) => {});
+        },
+
         resetForm() {
             this.keyword = "";
+            this.selectedDriverId = "allDriver";
         },
     },
 
@@ -96,9 +132,14 @@ export default {
             var searched_events = [];
             for (var i in this.all_events) {
                 var event = this.all_events[i];
+                if(this.selectedDriverId == "allDriver" || this.selectedDriverId == event.driver_id){  
+                    if(!this.keyword){
+                            searched_events.push(event);
+                        }
                     if(this.keyword && event.title?.includes(this.keyword)){
                         searched_events.push(event);
                     }
+                }
             }
             return searched_events;
         },
