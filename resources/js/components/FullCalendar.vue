@@ -1,5 +1,9 @@
 <template>
     <AdminLayout>
+    <button @click = "searchForm">Search</button>
+    <search-event
+        :show="search_form"
+    />
     <section class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
@@ -67,6 +71,7 @@ import AdminLayout from "./Layouts/AdminLayout.vue"
 import ScheduleCategories from "./ScheduleCategories/List.vue";
 import CreateEventModal from "./CreateEventModal.vue";
 import ShowEventModal from "./ShowEventModal.vue";
+import SearchEvent from "./SearchEvent.vue";
 
 export default {
     components: {
@@ -75,11 +80,13 @@ export default {
         CreateEventModal,
         ShowEventModal,
         ScheduleCategories,
+        SearchEvent,
     },
     data() {
         return {
             new_event_modal_open: false,
             show_event_details_modal: false,
+            search_form: false,
             calendarOptions: {
                 plugins: [
                     dayGridPlugin,
@@ -213,6 +220,15 @@ export default {
             this.$refs.fullcalendar.getApi().refetchEvents();
 
         },
+        searchForm() {
+            if(this.search_form){
+                this.search_form = false;
+            }
+            else{
+                this.search_form = true;
+            }
+            
+        }
     },
 }
 </script>
