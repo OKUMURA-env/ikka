@@ -43,6 +43,9 @@
 
                             <li class="list-group-item">
                                 <driver-select
+                                    :drivers="drivers"
+                                    @change="handleDriverChange"
+                                    :driverId="driverId"
                                 />
                             </li>
 
@@ -143,7 +146,19 @@ export default {
         };
     },
 
+    mounted() {
+        this.getDrivers();
+    },
+
     methods: {
+        getDrivers() {
+            axios
+                .get("/api/drivers")
+                .then((response) => {
+                    this.drivers = response.data.drivers;
+                })
+                .catch((error) => {});
+        },
         closeModal() {
             this.$emit("close");  
         },
@@ -191,6 +206,7 @@ export default {
                     title: this.event.title,
                     start: start,
                     end: end,
+                    driver_id: this.driverId,
                     all_day: this.event.all_day,
                 })
                 .then(({ data }) => {
@@ -212,6 +228,10 @@ export default {
                     this.$emit("error");
                 });
         },
+        handleDriverChange(event, display_name) {
+            this.driverId = event.target.value;
+
+        },
        
     },
       // 注意！
@@ -232,6 +252,7 @@ export default {
                     start_time: start_time,
                     end_date: end_date,
                     end_time: end_time,
+                    driver_id: currentEvent.driver_id,
                     all_day: false,
                 };
             }
@@ -241,6 +262,7 @@ export default {
                     title: currentEvent.title,
                     start_date: currentEvent.start,
                     end_date: currentEvent.end,
+                    driver_id: currentEvent.driver_id,
                     all_day: true,
                 };
             }   
