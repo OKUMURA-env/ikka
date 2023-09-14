@@ -39,6 +39,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('event/event-get',[App\Http\Controllers\EventController::class,'eventGet']);
     Route::resource('event',App\Http\Controllers\EventController::class)->only(['store','show','update','destroy']);
 
+    //カテゴリー
+    Route::resource('schedule-categories',App\Http\Controllers\ScheduleCategoryController::class)->only(['index','store','show','edit','update','destroy']);
+
     //ドライバー設定
     Route::resource('drivers',App\Http\Controllers\DriverController::class)->only(['index','store','show','edit','update','destroy']);
 
