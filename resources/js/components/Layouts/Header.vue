@@ -129,18 +129,21 @@ import store from '@/store/index.js'
 export default {
     data() {
         return {
-            
+            loginUserName: "",
         };
     },
     mounted() {
-       
-
+       this.getLoginUserName();
     },
     computed: {
-    
+        loginUserName() {
+            return this.$store.state.name;
+        },
     },
     methods: {
-       
+        getLoginUserName(){
+            this.$store.dispatch("checkLogin");
+        },
     },
 
     created() {
