@@ -1,6 +1,6 @@
 <template>
     <div class="input-group input-group-seamless">
-        <label for="driver">ドライバー</label>
+        <p>ドライバー</p>
         <select class="form-control" 
                 v-model="selectedDriverId"
                 @change = "onChange">
@@ -39,7 +39,6 @@ export default {
          },
     },
     computed: {
-       
     },
 
 };
