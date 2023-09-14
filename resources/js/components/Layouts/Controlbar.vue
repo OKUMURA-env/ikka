@@ -20,10 +20,10 @@ export default {
     },
     methods: {
         async logout() {
-            console.log("ok");
             try {
                 await axios.post("/api/logout");
                 localStorage.removeItem("authToken");
+                localStorage.removeItem("vuex");
                 this.$router.push({ name: "login" });
             } catch (error) {
                 console.error("Error during logout:", error);
