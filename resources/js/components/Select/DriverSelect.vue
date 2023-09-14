@@ -5,15 +5,15 @@
                 v-model="selectedDriverId"
                 @change = "onChange">
             <option disabled value="nobody">未選択</option>
-            <!-- <option
+            <option
                 v-for="driver in drivers"
                 v-bind:value = "driver.id"
                 v-bind:key = "driver.id"
             >
                 {{ driver.name }}
-            </option> -->
+            </option>
         </select>
-        <!-- <div>選択項目: {{ selectedDriverId }}</div> -->
+        <div>選択項目: {{ selectedDriverId }}</div>
     </div>
 </template>
 
@@ -22,28 +22,24 @@ import { stringifyStyle } from "@vue/shared";
 import axios from "axios";
 
 export default {
-    // props: ["drivers","driverId"],
+    props: ["drivers","driverId"],
     data() {
         return {
-            // selectedDriverId:this.driverId || 'nobody',
+            selectedDriverId:this.driverId || 'nobody',
         };
     },
 
     methods: {
-        // onChange(event) {
-        //     if (this.SelectedDriverId !== 'nobody') {
-        //     const display_name = this.selectedDriverScheduleDisplayName;
-        //     console.log(display_name);              
-        //     this.$emit("change", event, display_name);
-        //     }
-        //  },
+        onChange(event) {
+            if (this.SelectedDriverId !== 'nobody') {
+            const display_name = this.selectedDriverScheduleDisplayName;
+            console.log(display_name);              
+            this.$emit("change", event, display_name);
+            }
+         },
     },
     computed: {
-        // selectedDriverScheduleDisplayName() {
-        //     const selectedDriver = this.drivers.find(driver => driver.id === this.selectedDriverId);
-        //     console.log(selectedDriver.display_name);  
-        //     return selectedDriver.display_name;
-        // },
+       
     },
 
 };
