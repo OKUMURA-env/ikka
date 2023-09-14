@@ -41,6 +41,11 @@
                             </li>
 
                             <li class="list-group-item">
+                                <driver-select
+                                />
+                            </li>
+
+                            <li class="list-group-item">
                                 <div class="input-group input-group-seamless">
                                     <input
                                         type="checkbox"
@@ -123,10 +128,12 @@
 </template>
 
 <script>
+import DriverSelect from "./Select/DriverSelect.vue";
 
 export default {
     props: ["show"],
     components: {
+        DriverSelect,
     },
     data() {
         return {
