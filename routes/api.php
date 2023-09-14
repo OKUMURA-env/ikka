@@ -42,5 +42,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
     //ドライバー設定
     Route::resource('drivers',App\Http\Controllers\DriverController::class)->only(['index','store','show','edit','update','destroy']);
 
+    //リアルタイム検索
+    Route::get('search-event', App\Http\Controllers\SearchEventController::class);
+
 });
     
