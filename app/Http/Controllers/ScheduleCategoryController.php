@@ -15,7 +15,10 @@ class ScheduleCategoryController extends Controller
      */
     public function index()
     {
-        //
+        $schedule_categories = ScheduleCategory::all();
+        return response()->json([
+            'schedule_categories' => $schedule_categories,
+        ]);
     }
     /**
      * Store a newly created resource in storage.
