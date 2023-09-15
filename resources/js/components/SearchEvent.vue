@@ -132,12 +132,16 @@ export default {
             var searched_events = [];
             for (var i in this.all_events) {
                 var event = this.all_events[i];
-                if(this.selectedDriverId == "allDriver" || this.selectedDriverId == event.driver_id){  
-                    if(!this.keyword){
+                if(!this.keyword && this.selectedDriverId == "allDriver"){
+                    return searched_events;
+                }else{
+                    if(this.selectedDriverId == "allDriver" || this.selectedDriverId == event.driver_id){  
+                        if(!this.keyword){
+                                searched_events.push(event);
+                            }
+                        if(this.keyword && event.title?.includes(this.keyword)){
                             searched_events.push(event);
                         }
-                    if(this.keyword && event.title?.includes(this.keyword)){
-                        searched_events.push(event);
                     }
                 }
             }
