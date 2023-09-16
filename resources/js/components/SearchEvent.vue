@@ -22,6 +22,32 @@
                                     >
                                         <select
                                             class="form-control"
+                                            v-model="selectedScheduleCategoryId"
+                                        >
+                                            <option value="allScheduleCategory">
+                                                すべてのカテゴリー
+                                            </option>
+                                            <option
+                                                v-for="schedule_category in schedule_categories"
+                                                v-bind:value="
+                                                    schedule_category.id
+                                                "
+                                                v-bind:key="
+                                                    schedule_category.id
+                                                "
+                                            >
+                                                {{ schedule_category.title }}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </li>
+
+                                <li class="list-group-item">
+                                    <div
+                                        class="input-group input-group-seamless"
+                                    >
+                                        <select
+                                            class="form-control"
                                             v-model="selectedDriverId"
                                         >
                                             <option value="allDriver">
@@ -53,7 +79,6 @@
                                 </li>
                             </ul>
                         </div>
-                        {{ searched_events }}
                     </div>
                 </div>
             </div>
@@ -66,9 +91,18 @@
                         <div class="card-body">
                             <table>
                                 <tr>
-                                    <td v-text="event.id"></td>
-                                    <td v-text="event.title"></td>
-                                    <td v-text="event.driver_id"></td>
+                                    <div>
+                                        <td>id : {{ event.id }}</td>
+                                    </div>
+                                    <div>
+                                        <td>タイトル : {{ event.title }}</td>
+                                    </div>
+                                    <div>
+                                        <td>ドライバー : {{ event.driver_id }}</td>
+                                    </div>
+                                    <div>
+                                        <td>カテゴリー : {{ event.schedule_category_id }}</td>
+                                    </div>
                                 </tr>
                             </table>
                         </div>
@@ -88,14 +122,17 @@ export default {
         return {
             all_events:[],
             searched_events:{},
+            schedule_categories: "",
             drivers: "",
             keyword: "",
+            selectedScheduleCategoryId: "allScheduleCategory",
             selectedDriverId: "allDriver",
         };
     },
     mounted() {
         this.getEvents();
         this.getDrivers();
+        this.getScheduleCategories();
     },
 
     methods: {
@@ -111,7 +148,15 @@ export default {
                     alert("登録に失敗しました");
                 });
         },
-
+        getScheduleCategories() {
+            axios
+                .get("/api/schedule-categories")
+                .then((response) => {
+                    this.schedule_categories =
+                        response.data.schedule_categories;
+                })
+                .catch((error) => {});
+        },
         getDrivers() {
             axios
                 .get("/api/drivers")
@@ -123,6 +168,7 @@ export default {
 
         resetForm() {
             this.keyword = "";
+            this.selectedScheduleCategoryId = "allScheduleCategory";
             this.selectedDriverId = "allDriver";
         },
     },
@@ -132,17 +178,19 @@ export default {
             var searched_events = [];
             for (var i in this.all_events) {
                 var event = this.all_events[i];
-                if(!this.keyword && this.selectedDriverId == "allDriver"){
+                if(!this.keyword && this.selectedDriverId == "allDriver" && this.selectedScheduleCategoryId == "allScheduleCategory"){
                     return searched_events;
                 }else{
-                    if(this.selectedDriverId == "allDriver" || this.selectedDriverId == event.driver_id){  
-                        if(!this.keyword){
+                    if(this.selectedScheduleCategoryId == "allScheduleCategory" || this.selectedScheduleCategoryId == event.schedule_category_id){
+                        if(this.selectedDriverId == "allDriver" || this.selectedDriverId == event.driver_id){  
+                            if(!this.keyword){
+                                    searched_events.push(event);
+                                }
+                            if(this.keyword && event.title?.includes(this.keyword)){
                                 searched_events.push(event);
                             }
-                        if(this.keyword && event.title?.includes(this.keyword)){
-                            searched_events.push(event);
                         }
-                    }
+                     }
                 }
             }
             return searched_events;
