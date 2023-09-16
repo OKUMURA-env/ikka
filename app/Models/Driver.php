@@ -15,4 +15,14 @@ class Driver extends Model
         'display_name',
         'other'
     ];
+
+    /**
+     * リレーション
+     * イベントとリレーション
+     */
+
+     public function events()
+     {
+         return $this->hasMany(Event::class);
+     }
 }

@@ -13,4 +13,21 @@ class ScheduleCategory extends Model
         'title',
         'color',
     ];
+
+     /**
+     * リレーション
+     * カテゴリーとリレーション
+     */
+     public function scheduleCategory()
+     {
+         return $this->belongsTo(ScheduleCategory::class);
+     }
+
+    /**
+     * ドライバーとリレーション
+     */
+     public function driver()
+     {
+         return $this->belongsTo(Driver::class);
+     }
 }

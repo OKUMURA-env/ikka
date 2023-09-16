@@ -18,4 +18,21 @@ class Event extends Model
         'all_day',
     ];
 
+    /**
+     * リレーション
+     * カテゴリーとリレーション
+     */
+    public function scheduleCategory()
+    {
+        return $this->belongsTo(ScheduleCategory::class);
+    }
+
+   /**
+    * ドライバーとリレーション
+    */
+    public function driver()
+    {
+        return $this->belongsTo(Driver::class);
+    }
+
 }
