@@ -49,7 +49,10 @@
                             <FullCalendar :options="calendarOptions" ref="fullcalendar" />
                         </div>
                     </div>
-                    <create-event-modal :show="new_event_modal_open" @close="resetNewEventData"
+                    <create-event-modal 
+                        :show="new_event_modal_open" 
+                        :scheduleCategoryId="scheduleCategoryId"
+                        @close="resetNewEventData"
                         @event-created="newEventCreated" />
                     <show-event-modal :show="show_event_details_modal" :currentEvent="currentEvent"
                         @close="show_event_details_modal = false" @event-updated="rerenderCalendar"
