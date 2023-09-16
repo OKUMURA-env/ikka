@@ -26,6 +26,7 @@ class EventController extends Controller
                 'start',
                 'end',
                 'title',
+                'schedule_category_id',
                 'driver_id',
                 'all_day',
             )
@@ -74,6 +75,7 @@ class EventController extends Controller
             "title" => $request->title,
             "start" => $request->start,
             "end" => $request->end,
+            "schedule_category_id" => $request->schedule_category_id,
             "driver_id" => $request->driver_id,
             "all_day" => $request->all_day,
         ]);

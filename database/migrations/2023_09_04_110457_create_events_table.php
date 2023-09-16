@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('title');
             $table->string('start')->nullable();
             $table->string('end')->nullable();
+            $table->unsignedBigInteger('schedule_category_id')->nullable();
             $table->unsignedBigInteger('driver_id')->nullable();
             $table->boolean('all_day')->default(true)->comment('1なら終日。0なら時間指定。');
             $table->timestamps();
