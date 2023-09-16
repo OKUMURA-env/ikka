@@ -42,6 +42,14 @@
                             </li>
 
                             <li class="list-group-item">
+                                <schedule-category-select
+                                    :schedule_categories="schedule_categories"
+                                    @change="handleScheduleCategoryChange"
+                                    :scheduleCategoryId="scheduleCategoryId"
+                                />
+                            </li>
+
+                            <li class="list-group-item">
                                 <driver-select
                                     :drivers="drivers"
                                     @change="handleDriverChange"
@@ -133,10 +141,12 @@
 import { stringifyStyle } from "@vue/shared";
 import axios from "axios";
 import DriverSelect from "./Select/DriverSelect.vue";
+import ScheduleCategorySelect from "./Select/ScheduleCategorySelect.vue";
 
 export default {
     props: ["show", "currentEvent"],
     components: {
+        ScheduleCategorySelect,
         DriverSelect,
     },
     data() {
@@ -147,10 +157,20 @@ export default {
     },
 
     mounted() {
+        this.getScheduleCategories();
         this.getDrivers();
     },
 
     methods: {
+        getScheduleCategories() {
+            axios
+                .get("/api/schedule-categories")
+                .then((response) => {
+                    this.schedule_categories =
+                        response.data.schedule_categories;
+                })
+                .catch((error) => {});
+        },
         getDrivers() {
             axios
                 .get("/api/drivers")
@@ -200,12 +220,14 @@ export default {
                 return;
             }
 
+            console.log(this.scheduleCategoryId);
             axios
                 .put("/api/event/" + this.event.id, {
                     id: this.event.id,
                     title: this.event.title,
                     start: start,
                     end: end,
+                    schedule_category_id: this.scheduleCategoryId,
                     driver_id: this.driverId,
                     all_day: this.event.all_day,
                 })
@@ -227,6 +249,9 @@ export default {
                 .catch((error) => {
                     this.$emit("error");
                 });
+        },
+        handleScheduleCategoryChange(event) {
+            this.scheduleCategoryId = event.target.value;
         },
         handleDriverChange(event, display_name) {
             this.driverId = event.target.value;
@@ -271,6 +296,8 @@ export default {
             // 検索結果のスケジュールからモーダルを起動させた場合、スケジュールに合わせて、
             // 検索結果上の予定も変更されてしまうため。
             this.event = JSON.parse(JSON.stringify(Event));
+            this.scheduleCategoryId = currentEvent.schedule_category_id;
+            this.driverId = currentEvent.driver_id;
         },
     },
 

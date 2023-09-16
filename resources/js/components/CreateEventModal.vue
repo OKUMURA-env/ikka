@@ -41,6 +41,14 @@
                             </li>
 
                             <li class="list-group-item">
+                                <schedule-category-select
+                                    :schedule_categories="schedule_categories"
+                                    @change="handleScheduleCategoryChange"
+                                    :scheduleCategoryId="scheduleCategoryId"
+                                />
+                            </li>
+
+                            <li class="list-group-item">
                                 <driver-select
                                     :drivers="drivers"
                                     @change="handleDriverChange"
@@ -131,17 +139,22 @@
 </template>
 
 <script>
+import ScheduleCategorySelect from "./Select/ScheduleCategorySelect.vue";
 import DriverSelect from "./Select/DriverSelect.vue";
 
 export default {
-    props: ["show"],
+    props: ["show",
+            "schedule_categories",
+            "scheduleCategoryId"],
     components: {
+        ScheduleCategorySelect,
         DriverSelect,
     },
     data() {
         return {
             event: {
                 title: null,
+                schedule_category_id: "",
                 driver_id: "",
                 start_date: "",
                 start_time: "",
@@ -149,14 +162,25 @@ export default {
                 end_time: "",
                 all_day: true,
             },
+            schedule_categories: [],
         }
     },
 
     mounted() {
         this.getDrivers();
+        this.getScheduleCategories();
     },
 
     methods: {
+        getScheduleCategories() {
+            axios
+                .get("/api/schedule-categories")
+                .then((response) => {
+                    this.schedule_categories =
+                        response.data.schedule_categories;
+                })
+                .catch((error) => {});
+        },
         getDrivers() {
             axios
                 .get("/api/drivers")
@@ -172,6 +196,7 @@ export default {
             this.event.end_date = null;
             this.event.end_time = "";
             this.event.all_day = true;
+            this.event.schedule_category_id = "";
             this.event.driver_id = "";
            this.$emit("close");
         },
@@ -211,6 +236,7 @@ export default {
                     title: this.event.title,
                     start: start,
                     end: end,
+                    schedule_category_id: this.event.schedule_category_id,
                     driver_id: this.driverId,
                     all_day: this.event.all_day,
                 })
@@ -221,6 +247,10 @@ export default {
                 .catch((error) => {
                     this.$emit("error");
                 });
+        },
+
+        handleScheduleCategoryChange(event) {
+            this.event.schedule_category_id = event.target.value;
         },
 
         handleDriverChange(event, display_name) {
