@@ -32,8 +32,7 @@ export default {
     methods: {
         onChange(event) {
             if (this.SelectedDriverId !== 'nobody') {
-            const display_name = this.selectedDriverScheduleDisplayName;
-            console.log(display_name);              
+            const display_name = this.selectedDriverScheduleDisplayName;             
             this.$emit("change", event, display_name);
             }
          },
