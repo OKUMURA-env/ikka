@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Event;
+use App\Http\Resources\EventResource;
 
 class EventController extends Controller
 {
@@ -35,8 +36,7 @@ class EventController extends Controller
             ->where('start', '<', $end)
             ->get();
             
-           
-        return response()->json($events);
+            return EventResource::collection($events);
     }
 
     /**
@@ -48,7 +48,7 @@ class EventController extends Controller
     public function store(Request $request)
     {
         $event = Event::create($request->post());
-        return response()->json($event);
+        return new EventResource($event);
     }
 
     /**
@@ -59,7 +59,7 @@ class EventController extends Controller
      */
     public function show(Event $event)
     {
-        return response()->json($event);
+        return new EventResource($event);
     }
 
     /**
@@ -79,7 +79,7 @@ class EventController extends Controller
             "driver_id" => $request->driver_id,
             "all_day" => $request->all_day,
         ]);
-        return response()->json($event);
+        return new EventResource($event);
     }
 
     /**
