@@ -167,7 +167,7 @@ export default {
                 .get("/api/schedule-categories")
                 .then((response) => {
                     this.schedule_categories =
-                        response.data.schedule_categories;
+                        response.data.data;
                 })
                 .catch((error) => {});
         },
@@ -175,7 +175,7 @@ export default {
             axios
                 .get("/api/drivers")
                 .then((response) => {
-                    this.drivers = response.data.drivers;
+                    this.drivers = response.data.data;
                 })
                 .catch((error) => {});
         },

@@ -72,7 +72,7 @@ export default {
             axios
                 .get("/api/schedule-categories")
                 .then((response) => {
-                    this.schedule_categories = response.data.schedule_categories;
+                    this.schedule_categories = response.data.data;
                     this.$emit("schedule-category-changed");
                 })
                 .catch((error) => {
