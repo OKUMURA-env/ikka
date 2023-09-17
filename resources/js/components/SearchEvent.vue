@@ -98,11 +98,12 @@
                                         <td>タイトル : {{ event.title }}</td>
                                     </div>
                                     <div>
-                                        <td>ドライバー : {{ event.driver_id }}</td>
+                                        <td>ドライバー : {{ event.driver_name }}</td>
                                     </div>
                                     <div>
-                                        <td>カテゴリー : {{ event.schedule_category_id }}</td>
+                                        <td>カテゴリー : {{ event.schedule_category_title }}</td>
                                     </div>
+                                   
                                 </tr>
                             </table>
                         </div>
