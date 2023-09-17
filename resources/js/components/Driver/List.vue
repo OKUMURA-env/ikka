@@ -65,8 +65,8 @@ export default {
             axios
                 .get("/api/drivers")
                 .then((response) => {
-                    this.drivers = response.data.drivers;
-                    console.log(this.drivers);
+                    console.log(response);
+                    this.drivers = response.data.data;
                 })
                 .catch((error) => {
                     console.log(error);

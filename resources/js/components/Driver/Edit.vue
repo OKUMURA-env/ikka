@@ -68,8 +68,7 @@ export default {
             axios
                 .get("/api/drivers/" + this.driverId, this.driverId)
                 .then((response) => {
-                    this.driver = response.data;
-                    console.log(this.driver)
+                    this.driver = response.data.data;
                 })
                 .catch((error) => {
                     console.log(error);
@@ -85,7 +84,6 @@ export default {
                     other: this.driver.other,
                 })
                 .then((res) => {
-                    console.log(res);
                     this.$router.push({ name: "driver.list" });
                 })
                 .catch((error) => {
