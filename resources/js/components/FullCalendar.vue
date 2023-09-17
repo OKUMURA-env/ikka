@@ -136,7 +136,7 @@ export default {
                         .then((response) => {
                             // カレンダーに読み込み
                             console.log(response);
-                            successCallback(response.data);
+                            successCallback(response.data.data);
                         })
                         .catch(() => {
                             // バリデーションエラーなど
@@ -168,7 +168,7 @@ export default {
             axios
                 .get("/api/event/" + event.id, event)
                 .then((response) => {
-                    this.currentEvent = response.data;
+                    this.currentEvent = response.data.data;
                     this.show_event_details_modal = true;
                 })
                 .catch((response) => {
