@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\ScheduleCategory;
+use App\Http\Resources\ScheduleCategoryResource;
 
 class ScheduleCategoryController extends Controller
 {
@@ -16,9 +17,7 @@ class ScheduleCategoryController extends Controller
     public function index()
     {
         $schedule_categories = ScheduleCategory::all();
-        return response()->json([
-            'schedule_categories' => $schedule_categories,
-        ]);
+        return ScheduleCategoryResource::collection($schedule_categories);
     }
     /**
      * Store a newly created resource in storage.
@@ -29,9 +28,6 @@ class ScheduleCategoryController extends Controller
     public function store(Request $request)
     {
         $schedule_category = ScheduleCategory::create($request->post());
-        return response()->json([
-            'schedule_category' => $schedule_category
-        ]);
     }
 
 }
