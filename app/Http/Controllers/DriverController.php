@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Driver;
+use App\Http\Resources\DriverResource;
 
 class DriverController extends Controller
 {
@@ -15,9 +16,7 @@ class DriverController extends Controller
     public function index()
     {
         $drivers = Driver::all();
-        return response()->json([
-            'drivers' => $drivers,
-        ]);
+        return DriverResource::collection($drivers);
     }
 
     /**
@@ -29,9 +28,7 @@ class DriverController extends Controller
     public function store(Request $request)
     {
         $driver = Driver::create($request->post());
-        return response()->json([
-            'driver' => $driver
-        ]);
+        return new DriverResource($driver);
     }
 
     /**
@@ -43,7 +40,7 @@ class DriverController extends Controller
     public function show($driverId)
     {
         $driver = Driver::find($driverId);
-        return response()->json($driver);
+        return new DriverResource($driver);
     }
 
     /**
@@ -61,7 +58,6 @@ class DriverController extends Controller
             "display_name" => $request->display_name,
             "other" => $request->other,
         ]);
-        return response()->json($driver);
     }
 
     /**
