@@ -3,6 +3,7 @@
     <button @click = "searchForm">Search</button>
     <search-event
         :show="search_form"
+        @event-copied = "rerenderCalendar"
     />
     <section class="content-header">
         <div class="container-fluid">
