@@ -54,9 +54,13 @@
                         :scheduleCategoryId="scheduleCategoryId"
                         @close="resetNewEventData"
                         @event-created="newEventCreated" />
-                    <show-event-modal :show="show_event_details_modal" :currentEvent="currentEvent"
-                        @close="show_event_details_modal = false" @event-updated="rerenderCalendar"
+                    <show-event-modal 
+                        :show="show_event_details_modal" 
+                        :currentEvent="currentEvent"
+                        @close="show_event_details_modal = false" 
+                        @event-updated="rerenderCalendar"
                         @event-deleted="rerenderCalendar" />
+                    
                 </div>
             </div>
         </div>
