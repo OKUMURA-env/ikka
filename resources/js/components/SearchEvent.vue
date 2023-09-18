@@ -87,7 +87,7 @@
         <div class="container mt-3" 
              v-for="event in searchedEvents" 
              :key="event.id"
-             v-on:click="copyEventModalOpen(event.id)"
+             v-on:click="copyEventModalOpen(event)"
              >
             <div class="row">
                 <div class="col-12 col-sm-6 ml-0 mr-auto">
@@ -119,6 +119,8 @@
         <copy-event-modal 
                 :show="copy_event_modal_open"
                 @close="copy_event_modal_open = false" 
+                :currentEvent="currentEvent"
+                @event-copied="emitCalendar"
                      />
     </div>
 </template>
@@ -136,6 +138,7 @@ export default {
             copy_event_modal_open: false,
             all_events:[],
             searched_events:{},
+            event:{},
             schedule_categories: "",
             drivers: "",
             keyword: "",
@@ -186,10 +189,22 @@ export default {
             this.selectedDriverId = "allDriver";
         },
 
-        copyEventModalOpen(id) {
-            console.log("ok");
-            console.log(id);
-            this.copy_event_modal_open = true;
+        copyEventModalOpen(event) {
+            axios
+                .get("/api/event/" + event.id, event)
+                .then((response) => {
+                    console.log(response.data.data);
+                    this.currentEvent = response.data.data;
+                    this.copy_event_modal_open = true;
+                })
+                .catch((response) => {
+                    alert("Schedule click has been failed!");
+                });
+            
+        },
+        emitCalendar() {
+            //さらに親コンポーネントのrerendarCalendarを実行する
+            this.$emit("event-copied");
         }
     },
 
