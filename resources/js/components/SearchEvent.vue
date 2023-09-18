@@ -84,7 +84,11 @@
             </div>
         </div>
        
-        <div class="container mt-3" v-for="event in searchedEvents" :key="event.id">
+        <div class="container mt-3" 
+             v-for="event in searchedEvents" 
+             :key="event.id"
+             v-on:click="copyEventModalOpen(event.id)"
+             >
             <div class="row">
                 <div class="col-12 col-sm-6 ml-0 mr-auto">
                     <div class="card">
@@ -112,15 +116,24 @@
             </div>
         </div>
 
+        <copy-event-modal 
+                :show="copy_event_modal_open"
+                @close="copy_event_modal_open = false" 
+                     />
     </div>
 </template>
 
 <script>
+import CopyEventModal from "./CopyEventModal.vue";
+
 export default {
     props: ["show"],
-    components: {},
+    components: {
+        CopyEventModal,
+    },
     data() {
         return {
+            copy_event_modal_open: false,
             all_events:[],
             searched_events:{},
             schedule_categories: "",
@@ -172,6 +185,12 @@ export default {
             this.selectedScheduleCategoryId = "allScheduleCategory";
             this.selectedDriverId = "allDriver";
         },
+
+        copyEventModalOpen(id) {
+            console.log("ok");
+            console.log(id);
+            this.copy_event_modal_open = true;
+        }
     },
 
     computed: {
