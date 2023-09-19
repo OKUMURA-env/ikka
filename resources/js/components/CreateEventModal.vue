@@ -52,7 +52,6 @@
                                 <driver-select
                                     :drivers="drivers"
                                     @change="handleDriverChange"
-                                    :driverId="driverId"
                                 />
                             </li>
 
@@ -212,8 +211,8 @@ export default {
         return {
             event: {
                 title: null,
-                schedule_category_id: "",
-                driver_id: "",
+                schedule_category_id: "nobody",
+                driver_id: "nobody",
                 start_date: "",
                 start_time: "",
                 end_date: "",
@@ -259,8 +258,8 @@ export default {
             this.event.end_date = null;
             this.event.end_time = "";
             this.event.all_day = true;
-            this.event.schedule_category_id = "";
-            this.event.driver_id = "";
+            this.event.schedule_category_id = "nobody";
+            this.event.driver_id = "nobody";
             this.event.item = "";
             this.event.pickup_location = "";
             this.event.dropoff_location = "";
@@ -304,7 +303,7 @@ export default {
                     start: start,
                     end: end,
                     schedule_category_id: this.event.schedule_category_id,
-                    driver_id: this.driverId,
+                    driver_id: this.event.driver_id,
                     all_day: this.event.all_day,
                     item: this.event.item,
                     pickup_location: this.event.pickup_location,
@@ -325,7 +324,7 @@ export default {
         },
 
         handleDriverChange(event, display_name) {
-            this.driverId = event.target.value;
+            this.event.driver_id = event.target.value;
         },
 
     },
