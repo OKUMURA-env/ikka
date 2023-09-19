@@ -30,6 +30,10 @@ class EventController extends Controller
                 'schedule_category_id',
                 'driver_id',
                 'all_day',
+                'item',
+                'pickup_location',
+                'dropoff_location',
+                'description'
             )
             // FullCalendarの表示範囲のみ表示
             ->where('end', '>', $start)
