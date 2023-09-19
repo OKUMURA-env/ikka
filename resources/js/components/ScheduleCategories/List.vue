@@ -11,6 +11,7 @@
             <div
                 v-for="schedule_category in schedule_categories"
                 :data-schedule-category-id = "schedule_category.id"
+                v-on:click="showScheduleCategory(schedule_category)"
                 class="external-event ui-draggable ui-draggable-handle"     
                 v-bind:style="{ 'background-color': getBackGroundColors(schedule_category) }" 
             >
@@ -29,6 +30,15 @@
         
     />
 
+    <edit-schedule-categories
+        :show="show_schedule_category_modal"
+        @close="show_schedule_category_modal = false"
+        :scheduleCategoryId = "scheduleCategoryId"
+        :currentScheduleCategory  = "currentScheduleCategory"
+        @schedule-category-updated ="getScheduleCategories"
+        @schedule-category-deleted ="getScheduleCategories"
+    />
+
 </template>
 
 <script>
@@ -36,16 +46,19 @@ import { stringifyStyle } from "@vue/shared";
 import { Draggable } from "@fullcalendar/interaction";
 import axios from "axios";
 import CreateScheduleCategories from "./CreateModal.vue";
+import EditScheduleCategories from "./Edit.vue";
 
 export default {
     components: {
         CreateScheduleCategories,
+        EditScheduleCategories,
     },
     data() {
         return {
             event: {},      
             schedule_categories: {},  
             create_schedule_category_modal: false, 
+            show_schedule_category_modal: false,
         };
     },
 
@@ -85,6 +98,13 @@ export default {
         createScheduleCategory() {
             this.create_schedule_category_modal = true;
             
+        },
+
+        //個別のデータを取り出したい
+        showScheduleCategory(schedule_category) {
+            this.scheduleCategoryId = schedule_category.id;
+            this.show_schedule_category_modal = true;
+            this.currentScheduleCategory = schedule_category;
         },
 
         getBackGroundColors(schedule_category) {
