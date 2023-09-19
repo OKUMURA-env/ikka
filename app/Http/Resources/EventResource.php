@@ -24,6 +24,7 @@ class EventResource extends JsonResource
             'driver_id' => $this->driver_id,
             'driver_name' => $this->driver->name,
             'schedule_category_title' => $this->scheduleCategory->title,
+            'color' => $this->scheduleCategory->color,
             'item' => $this->item,
             'pickup_location' =>  $this->pickup_location,
             'dropoff_location' =>  $this->dropoff_location,
