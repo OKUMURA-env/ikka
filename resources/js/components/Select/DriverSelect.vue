@@ -25,16 +25,17 @@ export default {
     props: ["drivers","driverId"],
     data() {
         return {
+            event: {
+                driver_id: "",
+            },
             selectedDriverId:this.driverId || 'nobody',
         };
     },
 
     methods: {
-        onChange(event) {
-            if (this.SelectedDriverId !== 'nobody') {
-            const display_name = this.selectedDriverScheduleDisplayName;             
-            this.$emit("change", event, display_name);
-            }
+        onChange(event) {             
+            this.$emit("change", event);
+            
          },
     },
     computed: {
