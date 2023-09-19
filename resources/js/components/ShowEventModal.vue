@@ -110,6 +110,58 @@
                                 </div>
                             </li>
 
+                            <li class="list-group-item">
+                                <div class="input-group input-group-seamless">
+                                    <p>品目</p>
+                                    <input
+                                        type="text"
+                                        class="form-control w-100 modal-title"
+                                        v-model="event.item"
+                                        ref="eventItem"
+                                        autofocus
+                                    />
+                                </div>
+                            </li>
+
+                            <li class="list-group-item">
+                                <div class="input-group input-group-seamless">
+                                    <p>積み込み先</p>
+                                    <input
+                                        type="text"
+                                        class="form-control w-100 modal-title"
+                                        v-model="event.pickup_location"
+                                        ref="eventPickupLocation"
+                                        autofocus
+                                    />
+                                </div>
+                            </li>
+
+                            <li class="list-group-item">
+                                <div class="input-group input-group-seamless">
+                                    <p>荷下ろし先</p>
+                                    <input
+                                        type="text"
+                                        class="form-control w-100 modal-title"
+                                        v-model="event.dropoff_location"
+                                        ref="eventDropoffLocation"
+                                        autofocus
+                                    />
+                                </div>
+                            </li>
+
+                            <li class="list-group-item">
+                                <div class="input-group input-group-seamless">
+                                    <p>詳細</p>
+                                    <textarea
+                                        type="text"
+                                        class="form-control w-100 modal-title"
+                                        v-model="event.description"
+                                        ref="eventDescription"
+                                        autofocus
+                                    ></textarea>
+                                </div>
+                            </li>
+
                         </ul>
                     </div>
                 </div>
@@ -230,6 +282,10 @@ export default {
                     schedule_category_id: this.scheduleCategoryId,
                     driver_id: this.driverId,
                     all_day: this.event.all_day,
+                    item: this.event.item,
+                    pickup_location: this.event.pickup_location,
+                    dropoff_location: this.event.dropoff_location,
+                    description: this.event.description,
                 })
                 .then(({ data }) => {
                     this.closeModal();
@@ -263,7 +319,7 @@ export default {
     // watchを使わないと、eventが編集できない。
     watch: {
         currentEvent(currentEvent) {
-            console.log(currentEvent.all_day);
+            console.log(currentEvent);
             if (currentEvent.all_day == 0) {
                 console.log(currentEvent.start.slice(0, 10));
                 let start_date = currentEvent.start.slice(0, 10);
@@ -279,6 +335,10 @@ export default {
                     end_time: end_time,
                     driver_id: currentEvent.driver_id,
                     all_day: false,
+                    item: currentEvent.item,
+                    pickup_location: currentEvent.pickup_location,
+                    dropoff_location: currentEvent.dropoff_location,
+                    description: currentEvent.description,
                 };
             }
             if (currentEvent.all_day == 1) {
@@ -289,6 +349,10 @@ export default {
                     end_date: currentEvent.end,
                     driver_id: currentEvent.driver_id,
                     all_day: true,
+                    item: currentEvent.item,
+                    pickup_location: currentEvent.pickup_location,
+                    dropoff_location: currentEvent.dropoff_location,
+                    description: currentEvent.description,
                 };
             }   
         
