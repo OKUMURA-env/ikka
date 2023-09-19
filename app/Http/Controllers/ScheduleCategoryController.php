@@ -30,4 +30,31 @@ class ScheduleCategoryController extends Controller
         $schedule_category = ScheduleCategory::create($request->post());
     }
 
+     /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        $schedule_category = ScheduleCategory::where("id",$request->id)->update([
+            "title" => $request->title,
+            "color" => $request->color,
+        ]);
+        return response()->json($schedule_category);
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(ScheduleCategory $schedule_category)
+    {
+        $schedule_category->delete();
+    }
+
 }
