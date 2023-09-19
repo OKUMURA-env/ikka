@@ -16,6 +16,10 @@ class Event extends Model
         'schedule_category_id',
         'driver_id',
         'all_day',
+        'item',
+        'pickup_location',
+        'dropoff_location',
+        'description'
     ];
 
     /**
