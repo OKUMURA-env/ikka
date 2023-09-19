@@ -11,7 +11,8 @@
             <div
                 v-for="schedule_category in schedule_categories"
                 :data-schedule-category-id = "schedule_category.id"
-                class="external-event ui-draggable ui-draggable-handle"      
+                class="external-event ui-draggable ui-draggable-handle"     
+                v-bind:style="{ 'background-color': getBackGroundColors(schedule_category) }" 
             >
                 <div class="schedule-category-main">
                     {{ schedule_category.title }}
@@ -84,6 +85,10 @@ export default {
         createScheduleCategory() {
             this.create_schedule_category_modal = true;
             
+        },
+
+        getBackGroundColors(schedule_category) {
+            return schedule_category.color
         },
       
         
