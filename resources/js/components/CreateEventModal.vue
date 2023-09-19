@@ -49,6 +49,16 @@
                             </li>
 
                             <li class="list-group-item">
+                                <div class="input-group input-group-seamless">
+                                    <input
+                                        type="checkbox"
+                                        v-model="event.display_driver_name"
+                                        checked="checked"
+                                    />ドライバー名をタイトルに表示
+                                </div>
+                            </li>
+
+                            <li class="list-group-item">
                                 <driver-select
                                     :drivers="drivers"
                                     @change="handleDriverChange"
@@ -212,6 +222,7 @@ export default {
             event: {
                 title: null,
                 schedule_category_id: "nobody",
+                display_driver_name: true,
                 driver_id: "nobody",
                 start_date: "",
                 start_time: "",
@@ -259,6 +270,7 @@ export default {
             this.event.end_time = "";
             this.event.all_day = true;
             this.event.schedule_category_id = "nobody";
+            this.event.display_driver_name = true;
             this.event.driver_id = "nobody";
             this.event.item = "";
             this.event.pickup_location = "";
@@ -303,6 +315,7 @@ export default {
                     start: start,
                     end: end,
                     schedule_category_id: this.event.schedule_category_id,
+                    display_driver_name: this.event.display_driver_name,
                     driver_id: this.event.driver_id,
                     all_day: this.event.all_day,
                     item: this.event.item,
@@ -325,6 +338,14 @@ export default {
 
         handleDriverChange(event, display_name) {
             this.event.driver_id = event.target.value;
+
+             //「ドライバー名をタイトルに表示」にチェックが付いてたらタイトルに表示名を表示
+            //注意：display_nameの条件がないと冒頭にundefindがついてしまう。
+            if (this.event.display_driver_name && display_name) {
+                this.event.title = this.event.title
+                    ? display_name + this.event.title
+                    : display_name;
+            }
         },
 
     },
