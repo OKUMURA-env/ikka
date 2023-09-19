@@ -14,6 +14,7 @@ class Event extends Model
         'start',
         'end',
         'schedule_category_id',
+        'display_driver_name',
         'driver_id',
         'all_day',
         'item',
