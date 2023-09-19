@@ -79,7 +79,7 @@ class EventController extends Controller
             "driver_id" => $request->driver_id,
             "all_day" => $request->all_day,
         ]);
-        return new EventResource($event);
+        
     }
 
     /**
