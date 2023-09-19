@@ -21,6 +21,7 @@ class EventResource extends JsonResource
             'end' => $this->end,
             'all_day' => $this->all_day,
             'schedule_category_id' => $this->schedule_category_id,
+            'display_driver_name' => $this->display_driver_name,
             'driver_id' => $this->driver_id,
             'driver_name' => $this->driver->name,
             'schedule_category_title' => $this->scheduleCategory->title,
