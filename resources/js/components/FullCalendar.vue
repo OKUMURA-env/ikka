@@ -52,6 +52,8 @@
                     </div>
                     <create-event-modal 
                         :show="new_event_modal_open" 
+                        :start="new_event_start"
+                        :end="new_event_end"
                         :scheduleCategoryId="scheduleCategoryId"
                         @close="resetNewEventData"
                         @event-created="newEventCreated" />
@@ -153,8 +155,27 @@ export default {
         }
     },
     methods: {
-        handleDateClick() {
+        handleDateClick(e) {
             this.new_event_modal_open = true;
+            this.new_event_start = e.dateStr;
+            
+            //endはstartの翌日をデフォルトにしたい
+            //加算ができる形に変更
+            let year = e.dateStr.slice(0,4)
+            let month = e.dateStr.slice(5,7)
+            let day = e.dateStr.slice(8,10)
+
+            const converse_date = new Date(year, month, day); 
+            
+            //1日分加算
+            var add_day = converse_date.getDate()+1;
+            add_day = ('0' + add_day).slice(-2);
+
+            //stringsに変換
+            var format_str = 'YYYY-MM-DD';
+            format_str = format_str.replace('YYYY',year);
+            format_str = format_str.replace('MM',month);
+            this.new_event_end = format_str.replace('DD',add_day);
         },
         resetNewEventData() {
             this.new_event_modal_open = false;
