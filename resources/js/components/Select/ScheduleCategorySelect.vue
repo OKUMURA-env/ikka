@@ -2,7 +2,7 @@
     <div class="input-group input-group-seamless">
         <p>カテゴリー</p>
         <select class="form-control" 
-                v-model="selected"
+                v-model="selectedScheduleCategoryId"
                 @change = "onChange">
             <option disabled value="nobody">未選択</option>
             <option
@@ -13,7 +13,7 @@
                 {{ schedule_category.title }}
             </option>
         </select>
-        <div>選択項目: {{ selected }}</div>
+        <div>選択項目: {{ selectedScheduleCategoryId }}</div>
     </div>
 </template>
 
@@ -28,7 +28,7 @@ export default {
             event: {
                 schedule_category_id: "",
             },
-            selected:this.scheduleCategoryId || 'nobody',
+            selectedScheduleCategoryId:this.scheduleCategoryId || 'nobody',
         };
     },
 
