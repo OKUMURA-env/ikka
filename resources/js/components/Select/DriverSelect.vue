@@ -35,10 +35,15 @@ export default {
     methods: {
         onChange(event) {             
             this.$emit("change", event);
-            
+            const display_name = this.selectedDriverScheduleDisplayName;
+            this.$emit("change", event, display_name);  
          },
     },
     computed: {
+        selectedDriverScheduleDisplayName() {
+            const selectedDriver = this.drivers.find(driver => driver.id === this.selectedDriverId);  
+            return selectedDriver.display_name;
+        },
     },
 
 };
