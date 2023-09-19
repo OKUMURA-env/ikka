@@ -134,6 +134,9 @@ export default {
                 editable: true,
                 eventDrop: this.handleEventDrop,
                 eventResize: this.eventResize,
+                droppable: true,
+                eventReceive: this.handleScheduleReceive,
+
                 events: function (info, successCallback) {
                     axios
                         .post("api/event/event-get", {
@@ -215,6 +218,33 @@ export default {
                 .catch((error) => {
                     this.$emit("error");
                 });
+        },
+
+        //外部イベントのドロップ→保存の処理
+        handleScheduleReceive(e) {
+            this.new_event_modal_open = true;
+            this.new_event_start = e.event.startStr;
+            // this.category_name = e.event.title;
+            e.event.remove();
+
+             //終了日をdrop_dateの一日後にする。
+            //date型に変換
+            let year = this.new_event_start.slice(0,4)
+            let month = this.new_event_start.slice(5,7)
+            let day = this.new_event_start.slice(8,10)
+      
+            const converse_date = new Date(year, month, day); 
+            
+            //1日分加算
+            var add_day = converse_date.getDate()+1;
+            add_day = ('0' + add_day).slice(-2);
+
+            //stringsに変換
+            var format_str = 'YYYY-MM-DD';
+            format_str = format_str.replace('YYYY',year);
+            format_str = format_str.replace('MM',month);
+            this.new_event_end = format_str.replace('DD',add_day);
+            this.scheduleCategoryId = e.event.id;
         },
 
         //イベントの期間を変更
