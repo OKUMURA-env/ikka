@@ -37,7 +37,9 @@
                     </label>
                   </div>
                 </div> -->
-                <schedule-categories/>
+                <schedule-categories
+                    @schedule-category-changed = "rerenderCalendar"
+                />
                             </div>
                         </div>
 
