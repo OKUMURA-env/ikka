@@ -336,6 +336,9 @@ export default {
         end(end) {
             this.event.end_date = end;
         },
+        scheduleCategoryId(scheduleCategoryId) {
+            this.event.schedule_category_id = scheduleCategoryId;
+        },
     },
 };
 </script>
