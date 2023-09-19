@@ -144,6 +144,8 @@ import DriverSelect from "./Select/DriverSelect.vue";
 
 export default {
     props: ["show",
+            "start",
+            "end",
             "schedule_categories",
             "scheduleCategoryId"],
     components: {
@@ -260,7 +262,13 @@ export default {
 
     },
 
-    
-
+    watch: {
+        start(start) {
+            this.event.start_date = start;
+        },
+        end(end) {
+            this.event.end_date = end;
+        },
+    },
 };
 </script>
