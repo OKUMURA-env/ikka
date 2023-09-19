@@ -82,6 +82,10 @@ class EventController extends Controller
             "schedule_category_id" => $request->schedule_category_id,
             "driver_id" => $request->driver_id,
             "all_day" => $request->all_day,
+            "item" => $request->item,
+            "pickup_location" => $request->pickup_location,
+            "dropoff_location" => $request->dropoff_location,
+            "description" => $request->description,
         ]);
         
     }
