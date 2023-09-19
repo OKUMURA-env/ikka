@@ -109,6 +109,62 @@
                                 </div>
                             </li>
 
+                            <li class="list-group-item">
+                                <div class="input-group input-group-seamless">
+                                    <p>品目</p>
+                                    <input
+                                        type="text"
+                                        class="form-control w-100 modal-title"
+                                        v-model="event.item"
+                                        placeholder="Add item ..."
+                                        ref="eventItem"
+                                        autofocus
+                                    />
+                                </div>
+                            </li>
+
+                            <li class="list-group-item">
+                                <div class="input-group input-group-seamless">
+                                    <p>積み込み先</p>
+                                    <input
+                                        type="text"
+                                        class="form-control w-100 modal-title"
+                                        v-model="event.pickup_location"
+                                        placeholder="Add pickup location ..."
+                                        ref="eventPickupLocation"
+                                        autofocus
+                                    />
+                                </div>
+                            </li>
+
+                            <li class="list-group-item">
+                                <div class="input-group input-group-seamless">
+                                    <p>荷下ろし先</p>
+                                    <input
+                                        type="text"
+                                        class="form-control w-100 modal-title"
+                                        v-model="event.dropoff_location"
+                                        placeholder="Add dropoff location ..."
+                                        ref="eventDropoffLocation"
+                                        autofocus
+                                    />
+                                </div>
+                            </li>
+
+                            <li class="list-group-item">
+                                <div class="input-group input-group-seamless">
+                                    <p>詳細</p>
+                                    <textarea
+                                        type="text"
+                                        class="form-control w-100 modal-title"
+                                        v-model="event.description"
+                                        placeholder="Add Description ..."
+                                        ref="eventDescription"
+                                        autofocus
+                                    ></textarea>
+                                </div>
+                            </li>
+
                         </ul>
                     </div>
                 </div>
@@ -163,6 +219,10 @@ export default {
                 end_date: "",
                 end_time: "",
                 all_day: true,
+                item: "",
+                pickup_location: "",
+                dropoff_location: "",
+                description: "",
             },
             schedule_categories: [],
         }
@@ -201,6 +261,10 @@ export default {
             this.event.all_day = true;
             this.event.schedule_category_id = "";
             this.event.driver_id = "";
+            this.event.item = "";
+            this.event.pickup_location = "";
+            this.event.dropoff_location = "";
+            this.event.description = "";
            this.$emit("close");
         },
         saveEvent() {
@@ -242,6 +306,10 @@ export default {
                     schedule_category_id: this.event.schedule_category_id,
                     driver_id: this.driverId,
                     all_day: this.event.all_day,
+                    item: this.event.item,
+                    pickup_location: this.event.pickup_location,
+                    dropoff_location: this.event.dropoff_location,
+                    description: this.event.description,
                 })
                 .then(({ data }) => {
                     this.closeModal();
