@@ -16,11 +16,11 @@
                     <h5 class="modal-title">カテゴリー登録</h5>
                     <button
                         type="button"
-                        class="btn-close"
+                        class="btn-close btn btn-light"
                         data-bs-dismiss="modal"
                         @click="closeModal"
                         aria-label="Close"
-                    ></button>
+                    >×</button>
                 </div>
 
                 <div class="modal-body">
