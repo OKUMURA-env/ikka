@@ -213,6 +213,14 @@ export default {
                     start: e.event.startStr,
                     end: e.event.endStr,
                     all_day: e.event.allDay,
+                    item:e.event.extendedProps.item,
+                    pickup_location:e.event.extendedProps.pickup_location,
+                    dropoff_locatiobn:e.event.extendedProps.dropoff_locatiobn,
+                    description:e.event.extendedProps.description,
+                    display_driver_name:e.event.extendedProps.display_driver_name,
+                    schedule_category_id:e.event.extendedProps.schedule_category_id,
+                    driver_id:e.event.extendedProps.driver_id,
+                    schedule_category_title:e.event.extendedProps.schedule_category_title,
                 })
                 .then(({ data }) => {
                     this.rerenderCalendar();
@@ -258,6 +266,14 @@ export default {
                     start: e.event.startStr,
                     end: e.event.endStr,
                     all_day: e.event.allDay,
+                    item:e.event.extendedProps.item,
+                    pickup_location:e.event.extendedProps.pickup_location,
+                    dropoff_locatiobn:e.event.extendedProps.dropoff_locatiobn,
+                    description:e.event.extendedProps.description,
+                    display_driver_name:e.event.extendedProps.display_driver_name,
+                    schedule_category_id:e.event.extendedProps.schedule_category_id,
+                    driver_id:e.event.extendedProps.driver_id,
+                    schedule_category_title:e.event.extendedProps.schedule_category_title,
                 })
                 .then(({ data }) => {
                     this.rerenderCalendar();
