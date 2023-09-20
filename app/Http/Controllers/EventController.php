@@ -87,6 +87,7 @@ class EventController extends Controller
             "item" => $request->item,
             "pickup_location" => $request->pickup_location,
             "dropoff_location" => $request->dropoff_location,
+            "file_path" => $request->file_path,
             "description" => $request->description,
         ]);
         

@@ -25,6 +25,7 @@ return new class extends Migration
             $table->string('item')->nullable();
             $table->string('pickup_location')->nullable();
             $table->string('dropoff_location')->nullable();
+            $table->text('file_path')->nullable();
             $table->text('description')->nullable();
             $table->timestamps();
         });

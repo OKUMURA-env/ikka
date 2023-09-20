@@ -29,6 +29,7 @@ class EventResource extends JsonResource
             'item' => $this->item,
             'pickup_location' =>  $this->pickup_location,
             'dropoff_location' =>  $this->dropoff_location,
+            "file_path" => $this->file_path,
             'description' =>  $this->description,
         ];
     }

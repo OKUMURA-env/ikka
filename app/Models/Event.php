@@ -20,6 +20,7 @@ class Event extends Model
         'item',
         'pickup_location',
         'dropoff_location',
+        'file_path',
         'description'
     ];
 
