@@ -39,6 +39,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('event/event-get',[App\Http\Controllers\EventController::class,'eventGet']);
     Route::resource('event',App\Http\Controllers\EventController::class)->only(['store','show','update','destroy']);
 
+    //ファイルアップロード
+    Route::post('upload-file', App\Http\Controllers\UploadFileController::class);
+
     //カテゴリー
     Route::resource('schedule-categories',App\Http\Controllers\ScheduleCategoryController::class)->only(['index','store','show','edit','update','destroy']);
 
