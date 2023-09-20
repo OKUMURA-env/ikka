@@ -50,6 +50,16 @@
                            </li>
 
                            <li class="list-group-item">
+                                <div class="input-group input-group-seamless">
+                                    <input
+                                        type="checkbox"
+                                        v-model="showDriverNameInTitle"
+                                        checked="checked"
+                                    />ドライバー名をタイトルに表示
+                                </div>
+                            </li>
+
+                           <li class="list-group-item">
                                <driver-select
                                    :drivers="drivers"
                                    @change="handleDriverChange"
@@ -242,6 +252,14 @@ export default {
        },
        handleDriverChange(event, display_name) {
            this.driverId = event.target.value;
+
+             //「ドライバー名をタイトルに表示」にチェックが付いてたらタイトルに表示名を表示
+            //注意：display_nameの条件がないと冒頭にundefindがついてしまう。
+            if (this.showDriverNameInTitle && display_name) {
+                this.event.title = this.event.title
+                    ? display_name + this.event.title
+                    : display_name;
+            }
        },
        copyEvent() {
             let all_day = this.event.all_day;
@@ -288,6 +306,7 @@ export default {
                     start: start,
                     end: end,
                     schedule_category_id: this.event.schedule_category_id,
+                    display_driver_name: this.showDriverNameInTitle,
                     driver_id: this.driverId,
                     all_day: this.event.all_day,
                     item: this.event.item,
@@ -339,6 +358,7 @@ export default {
                         start_date: currentEvent.start,
                         end_date: currentEvent.end,
                         driver_id: currentEvent.driver_id,
+                        display_driver_name: this.showDriverNameInTitle,
                         schedule_category_id: currentEvent.schedule_category_id,
                         all_day: true,
                         item: currentEvent.item,
@@ -347,6 +367,15 @@ export default {
                         description: currentEvent.description,
                     };
                 }   
+
+                //タイトルにドライバー名を表示する場合はtrue、非表示の場合はfalse
+                if (currentEvent.display_driver_name == 1) {
+                    this.showDriverNameInTitle = true;
+                }
+                if (currentEvent.display_driver_name == 0) {
+                    this.showDriverNameInTitle = false;
+                }
+        
             
                 // ※ JSON.parse(JSON.stringify(currentEvent));
                 // 検索結果のスケジュールからモーダルを起動させた場合、スケジュールに合わせて、
