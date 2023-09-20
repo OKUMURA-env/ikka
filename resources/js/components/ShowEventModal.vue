@@ -17,11 +17,11 @@
                     {{ event }}
                     <button
                         type="button"
-                        class="btn-close"
+                        class="btn-close btn btn-light"
                         data-bs-dismiss="modal"
                         @click="closeModal"
                         aria-label="Close"
-                    ></button>
+                    >×</button>
                 </div>
 
                 <div class="modal-body">
@@ -159,6 +159,30 @@
                                 </div>
                             </li>
 
+                            <li class="list-group-item" v-if="event.file_path">
+                                <div class="input-group input-group-seamless">        
+                                    <a v-bind:href="event.file_path">{{ file_name }}</a>
+                                    <button
+                                        type="button"
+                                        class="btn-close"
+                                        data-bs-dismiss="modal"
+                                        @click="removeSelectedFile"
+                                        aria-label="Close"
+                                    >×</button>
+                                </div>
+                            </li>
+
+                            <li class="list-group-item" v-else>
+                                <div class="input-group input-group-seamless">
+                                    <p>添付ファイルを選択</p>
+                                    <input
+                                        @change="selectedFileForUpload"
+                                        type="file"
+                                        name="file"
+                                    />
+                                </div>
+                            </li>
+
                             <li class="list-group-item">
                                 <div class="input-group input-group-seamless">
                                     <p>詳細</p>
@@ -187,7 +211,7 @@
                     <button
                         type="button"
                         class="btn btn-primary"
-                        @click="updateEvent"
+                        @click="updateEventWithFile"
                     >
                         更新
                     </button>
@@ -214,6 +238,8 @@ export default {
     data() {
         return {
             event: {},
+            selected_file: "",
+            file_path: "",
             
         };
     },
@@ -244,6 +270,33 @@ export default {
         closeModal() {
             this.$emit("close");  
         },
+
+        selectedFileForUpload(e) {
+            // 選択された File の情報を保存しておく
+            let files = e.target.files;
+            this.selected_file = files[0];
+            console.log(this.selected_file);
+        },
+        removeSelectedFile() {
+            this.event.file_path = "" 
+        },
+
+        async uploadSelectdFile() {
+            let formData = new FormData();
+            formData.append("file", this.selected_file);
+
+            await axios
+                .post("/api/upload-file", formData)
+                .then((response) => {
+                    console.log(response);
+                    this.event.file_path = response.data;
+                    console.log(this.event.file_path);
+                })
+                .catch((error) => {
+                    console.log("error");
+                });
+        },
+
         updateEvent() {
             let all_day = this.event.all_day;
 
@@ -283,6 +336,7 @@ export default {
             }
 
             console.log(this.scheduleCategoryId);
+            console.log(this.event.file_path);
             axios
                 .put("/api/event/" + this.event.id, {
                     id: this.event.id,
@@ -296,6 +350,7 @@ export default {
                     item: this.event.item,
                     pickup_location: this.event.pickup_location,
                     dropoff_location: this.event.dropoff_location,
+                    file_path: this.event.file_path,
                     description: this.event.description,
                 })
                 .then(({ data }) => {
@@ -305,6 +360,11 @@ export default {
                 .catch((error) => {
                     this.$emit("error");
                 });
+        },
+        async updateEventWithFile() {
+            //file_pathを取得した後にsaveEventを発動させる
+            await this.uploadSelectdFile();
+            this.updateEvent();
         },
         deleteEvent() {
             axios
@@ -358,6 +418,7 @@ export default {
                     item: currentEvent.item,
                     pickup_location: currentEvent.pickup_location,
                     dropoff_location: currentEvent.dropoff_location,
+                    file_path: currentEvent.file_path,
                     description: currentEvent.description,
                 };
             }
@@ -374,6 +435,7 @@ export default {
                     item: currentEvent.item,
                     pickup_location: currentEvent.pickup_location,
                     dropoff_location: currentEvent.dropoff_location,
+                    file_path: currentEvent.file_path,
                     description: currentEvent.description,
                 };
             }   
@@ -392,6 +454,13 @@ export default {
             this.event = JSON.parse(JSON.stringify(Event));
             this.scheduleCategoryId = currentEvent.schedule_category_id;
             this.driverId = currentEvent.driver_id;
+
+            //↓保存ファイル名を表示する時「/storage/」を消したい
+            //watchに書くべきことかわからないけどmountedではできなかったから一旦ここで。
+            if(currentEvent.file_path){
+            this.file_name = currentEvent.file_path.slice(9);
+            }
+            
         },
     },
 

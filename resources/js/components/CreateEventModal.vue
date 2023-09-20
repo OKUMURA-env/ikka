@@ -17,11 +17,11 @@
                     {{ event }}
                     <button
                         type="button"
-                        class="btn-close"
+                        class="btn-close btn btn-light"
                         data-bs-dismiss="modal"
                         @click="closeModal"
                         aria-label="Close"
-                    ></button>
+                    >×</button>
                 </div>
                 <div class="modal-body">
                     <div class="p-2">
@@ -160,6 +160,30 @@
                                 </div>
                             </li>
 
+                            <li class="list-group-item" v-if="selected_file">
+                                <div class="input-group input-group-seamless">
+                                    <p>{{ selected_file.name }}</p>
+                                    <button
+                                        type="button"
+                                        class="btn-close"
+                                        data-bs-dismiss="modal"
+                                        @click="removeSelectedFile"
+                                        aria-label="Close"
+                                    >×</button>
+                                </div>
+                            </li>
+
+                            <li class="list-group-item" v-else>
+                                <div class="input-group input-group-seamless">
+                                    <p>添付ファイルを選択</p>
+                                    <input
+                                        @change="selectedFileForUpload"
+                                        type="file"
+                                        name="file"
+                                    />
+                                </div>
+                            </li>
+
                             <li class="list-group-item">
                                 <div class="input-group input-group-seamless">
                                     <p>詳細</p>
@@ -190,7 +214,7 @@
                     <button
                         type="button"
                         class="btn btn-primary"
-                        @click="saveEvent"
+                        @click="saveEventWithFile"
                     >
                         登録
                     </button>
@@ -232,9 +256,12 @@ export default {
                 item: "",
                 pickup_location: "",
                 dropoff_location: "",
+                file_path: "",
                 description: "",
             },
             schedule_categories: [],
+            selected_file: "",
+            file_path: "",
         }
     },
 
@@ -275,9 +302,37 @@ export default {
             this.event.item = "";
             this.event.pickup_location = "";
             this.event.dropoff_location = "";
+            this.event.file_path = "";
             this.event.description = "";
            this.$emit("close");
         },
+
+        selectedFileForUpload(e) {
+            // 選択された File の情報を保存しておく
+            let files = e.target.files;
+            this.selected_file = files[0];
+            console.log(this.selected_file.name);
+        },
+
+        removeSelectedFile() {
+            this.selected_file = "" 
+        },
+
+        async uploadSelectdFile(){
+            let formData = new FormData();
+            formData.append("file", this.selected_file);
+
+            await axios
+                .post("/api/upload-file", formData)
+                .then((response) => {
+                    console.log(response.data);
+                    this.event.file_path = response.data;
+                })
+                .catch((error) => {
+                    console.log("error");
+                });
+        },
+
         saveEvent() {
             let all_day = this.event.all_day;
             let start = this.event.start_date + " " + this.event.start_time;
@@ -321,6 +376,7 @@ export default {
                     item: this.event.item,
                     pickup_location: this.event.pickup_location,
                     dropoff_location: this.event.dropoff_location,
+                    file_path: this.event.file_path,
                     description: this.event.description,
                 })
                 .then(({ data }) => {
@@ -330,6 +386,12 @@ export default {
                 .catch((error) => {
                     this.$emit("error");
                 });
+        },
+
+        async saveEventWithFile() {
+            //file_pathを取得した後にsaveEventを発動させる
+            await this.uploadSelectdFile();
+            this.saveEvent();
         },
 
         handleScheduleCategoryChange(event) {
