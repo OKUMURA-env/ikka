@@ -29,7 +29,7 @@
             </li>
 
             <li class="nav-item">
-                <a href="http://localhost/calendar" class="nav-link">
+                <a href="http://localhost/csv-export" class="nav-link">
                     <i class="nav-icon fas fa-file-export"></i>
                     <p>
                         CSVエクスポート
