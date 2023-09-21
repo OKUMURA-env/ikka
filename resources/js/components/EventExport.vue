@@ -150,11 +150,25 @@ export default {
     },
     methods: {
         getScheduleCategories() {
-            //
+            axios
+                .get("/api/schedule-categories")
+                .then((response) => {
+                    console.log(response.data.data)
+                    this.schedule_categories =
+                        response.data.data;
+                })
+                .catch((error) => {});
         },
 
         getDrivers() {
-            //
+            axios
+                .get("/api/drivers")
+                .then((response) => {
+                    console.log(response.data.data)
+                    this.drivers = response.data.data;
+                    console.log(this.drivers);
+                })
+                .catch((error) => {});
         },
         selectAll() {
             //
