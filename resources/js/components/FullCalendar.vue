@@ -99,6 +99,7 @@ export default {
             new_event_modal_open: false,
             show_event_details_modal: false,
             search_form: false,
+            currentEvent:"",
             calendarOptions: {
                 plugins: [
                     dayGridPlugin,
@@ -220,6 +221,7 @@ export default {
                     display_driver_name:e.event.extendedProps.display_driver_name,
                     schedule_category_id:e.event.extendedProps.schedule_category_id,
                     driver_id:e.event.extendedProps.driver_id,
+                    file_path: this.currentEvent.file_path,
                     schedule_category_title:e.event.extendedProps.schedule_category_title,
                 })
                 .then(({ data }) => {
@@ -273,6 +275,7 @@ export default {
                     display_driver_name:e.event.extendedProps.display_driver_name,
                     schedule_category_id:e.event.extendedProps.schedule_category_id,
                     driver_id:e.event.extendedProps.driver_id,
+                    file_path:this.currentEvent.file_path,
                     schedule_category_title:e.event.extendedProps.schedule_category_title,
                 })
                 .then(({ data }) => {
