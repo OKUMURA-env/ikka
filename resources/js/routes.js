@@ -6,6 +6,7 @@ import LoginComponent from './components/Auth/Login.vue';
 import DriverListComponent from './components/Driver/List.vue';
 import DriverCreateComponent from './components/Driver/Create.vue';
 import DriverEditComponent from './components/Driver/Edit.vue';
+import EventExportComponent from './components/EventExport.vue';
 
 const routes = [
     {
@@ -44,6 +45,11 @@ const routes = [
         component: DriverEditComponent,
         props: true,
     },
+    {
+        path: "/csv-export",
+        name: "event.export",
+        component: EventExportComponent,
+    }
 ];
 
 const router = createRouter({
