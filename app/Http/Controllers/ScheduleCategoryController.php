@@ -37,9 +37,9 @@ class ScheduleCategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, ScheduleCategory $schedule_category)
     {
-        $schedule_category = ScheduleCategory::where("id",$request->id)->update([
+        $schedule_category = $schedule_category->update([
             "title" => $request->title,
             "color" => $request->color,
         ]);
