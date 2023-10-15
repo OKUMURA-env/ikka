@@ -161,15 +161,12 @@ export default {
         }
     },
     methods: {
-        handleDateClick(e) {
-            this.new_event_modal_open = true;
-            this.new_event_start = e.dateStr;
-            
-            //endはstartの翌日をデフォルトにしたい
+        //終了日を開始日の一日後にする
+        endAfterStart(start_day){
             //加算ができる形に変更
-            let year = e.dateStr.slice(0,4)
-            let month = e.dateStr.slice(5,7)
-            let day = e.dateStr.slice(8,10)
+            let year = start_day.slice(0,4)
+            let month = start_day.slice(5,7)
+            let day = start_day.slice(8,10)
 
             const converse_date = new Date(year, month, day); 
             
@@ -181,7 +178,15 @@ export default {
             var format_str = 'YYYY-MM-DD';
             format_str = format_str.replace('YYYY',year);
             format_str = format_str.replace('MM',month);
-            this.new_event_end = format_str.replace('DD',add_day);
+            return format_str.replace('DD',add_day);
+
+        },
+        handleDateClick(e) {
+            this.new_event_modal_open = true;
+            this.new_event_start = e.dateStr;
+            
+            //startの一日後をendに設定
+            this.new_event_end = this.endAfterStart(this.new_event_start);
         },
         resetNewEventData() {
             this.new_event_modal_open = false;
@@ -207,6 +212,7 @@ export default {
                 });
         },
 
+        //イベントオブジェクトを定義
         createEventObject(e){
             const event = {
                 id: e.event.id,
@@ -227,6 +233,7 @@ export default {
             return event;
         },
 
+        //イベントを別日に移動
         handleEventDrop(e) {
             const event = this.createEventObject(e);
             console.log(event);
@@ -261,23 +268,8 @@ export default {
             // this.category_name = e.event.title;
             e.event.remove();
 
-             //終了日をdrop_dateの一日後にする。
-            //date型に変換
-            let year = this.new_event_start.slice(0,4)
-            let month = this.new_event_start.slice(5,7)
-            let day = this.new_event_start.slice(8,10)
-      
-            const converse_date = new Date(year, month, day); 
-            
-            //1日分加算
-            var add_day = converse_date.getDate()+1;
-            add_day = ('0' + add_day).slice(-2);
-
-            //stringsに変換
-            var format_str = 'YYYY-MM-DD';
-            format_str = format_str.replace('YYYY',year);
-            format_str = format_str.replace('MM',month);
-            this.new_event_end = format_str.replace('DD',add_day);
+            //startの一日後をendに設定
+            this.new_event_end = this.endAfterStart(this.new_event_start);  
             this.scheduleCategoryId = e.event.id;
         },
 
