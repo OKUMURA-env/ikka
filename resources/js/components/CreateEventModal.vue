@@ -37,6 +37,7 @@
                                         ref="eventTitle"
                                         autofocus
                                     />
+                                    <p class=error>{{ titleError }}</p>
                                 </div>
                             </li>
 
@@ -46,6 +47,7 @@
                                     @change="handleScheduleCategoryChange"
                                     :scheduleCategoryId="scheduleCategoryId"
                                 />
+                                <p class=error>{{ scheduleCategoryError }}</p>
                             </li>
 
                             <li class="list-group-item">
@@ -63,6 +65,7 @@
                                     :drivers="drivers"
                                     @change="handleDriverChange"
                                 />
+                                <p class=error>{{ driverError }}</p>
                             </li>
 
                             <li class="list-group-item">
@@ -73,6 +76,7 @@
                                         v-model="event.all_day"
                                         checked="checked"
                                     />終日
+                                    <p class=error>{{ dateTimeError }}</p>
                                 </div>
                             </li>
 
@@ -107,6 +111,7 @@
                                         ref="eventEndDate"
                                         autofocus
                                     />
+                                    <p class=error>{{ dateError }}</p>
                                     <input
                                         v-if="!event.all_day"
                                         type="time"
@@ -129,6 +134,7 @@
                                         ref="eventItem"
                                         autofocus
                                     />
+                                    <p class=error>{{ itemError }}</p>
                                 </div>
                             </li>
 
@@ -143,6 +149,7 @@
                                         ref="eventPickupLocation"
                                         autofocus
                                     />
+                                    <p class=error>{{ pickupLocationError }}</p>
                                 </div>
                             </li>
 
@@ -157,6 +164,7 @@
                                         ref="eventDropoffLocation"
                                         autofocus
                                     />
+                                    <p class=error>{{ dropoffLocationError }}</p>
                                 </div>
                             </li>
 
@@ -262,6 +270,14 @@ export default {
             schedule_categories: [],
             selected_file: "",
             file_path: "",
+            titleError: "",
+            scheduleCategoryError: "",
+            driverError: "",
+            itemError: "",
+            pickupLocationError: "",
+            dropoffLocationError: "",
+            dateError: "",
+            dateTimeError: "",
         }
     },
 
@@ -304,6 +320,16 @@ export default {
             this.event.dropoff_location = "";
             this.event.file_path = "";
             this.event.description = "";
+            this.titleError = "";
+            this.categoryError = "";
+            this.driverError = "";
+            this.itemError = "";
+            this.pickupLocationError = "";
+            this.dropoffLocationError = "";
+            this.scheduleCategoryError = "",
+            this.driverError = "",
+            this.dateError = "",
+            this.dateTimeError = "",
            this.$emit("close");
         },
 
@@ -339,29 +365,24 @@ export default {
             let end = this.event.end_date + " " + this.event.end_time;
 
             if (start >= end) {
-                alert("終了日は開始日より後に設定してください。");
-                return;
+                this.dateError = "終了日は開始日より後に設定してください。";
             }
 
             //終日をチェックしてないとき、時間フォームを空のまま登録できないようにする。
             if(!all_day && this.event.start_time === undefined){
-                alert("終日にチェックするか、時間を指定してください。");
-                return;
+                this.dateTimeError = "終日にチェックするか、時間を指定してください。";
             }
 
             if(!all_day && this.event.start_time === ""){
-                alert("終日にチェックするか、時間を指定してください。");
-                return;
+                this.dateTimeError= "終日にチェックするか、時間を指定してください。";
             }
             
             if(!all_day && this.event.end_time === undefined){
-                alert("終日にチェックするか、時間を指定してください。");
-                return;
+                this.dateTimeError= "終日にチェックするか、時間を指定してください。";
             }
 
             if(!all_day && this.event.end_time === ""){
-                alert("終日にチェックするか、時間を指定してください。");
-                return;
+                this.dateTimeError= "終日にチェックするか、時間を指定してください。";
             }
 
             axios
@@ -384,6 +405,26 @@ export default {
                     this.$emit("event-created");
                 })
                 .catch((error) => {
+                    console.log(error);
+                   
+                    if(error.response.data.errors.title){
+                        this.titleError = error.response.data.errors.title[0];
+                    }
+                    if(error.response.data.errors.driver_id){
+                        this.driverError = error.response.data.errors.driver_id[0];
+                    }
+                    if(error.response.data.errors.schedule_category_id){
+                        this.scheduleCategoryError = error.response.data.errors.schedule_category_id[0];
+                    }
+                    if(error.response.data.errors.item){
+                        this.itemError = error.response.data.errors.item[0];
+                    }
+                    if( error.response.data.errors.pickup_location){
+                        this.pickupLocationError = error.response.data.errors.pickup_location[0];
+                    }
+                    if( error.response.data.errors.dropoff_location){
+                        this.dropoffLocationError = error.response.data.errors.dropoff_location[0];
+                    }             
                     this.$emit("error");
                 });
         },
@@ -425,3 +466,10 @@ export default {
     },
 };
 </script>
+
+<style>
+.error {
+    color:red;
+}
+
+</style>
