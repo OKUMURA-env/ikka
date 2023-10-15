@@ -206,24 +206,46 @@ export default {
                     alert("Schedule click has been failed!");
                 });
         },
+
+        createEventObject(e){
+            const event = {
+                id: e.event.id,
+                title: e.event.title,
+                start: e.event.startStr,
+                end: e.event.endStr,
+                all_day: e.event.allDay,
+                item:e.event.extendedProps.item,
+                pickup_location:e.event.extendedProps.pickup_location,
+                dropoff_locatiobn:e.event.extendedProps.dropoff_locatiobn,
+                description:e.event.extendedProps.description,
+                display_driver_name:e.event.extendedProps.display_driver_name,
+                schedule_category_id:e.event.extendedProps.schedule_category_id,
+                driver_id:e.event.extendedProps.driver_id,
+                file_path: this.currentEvent.file_path,
+                schedule_category_title:e.event.extendedProps.schedule_category_title,
+            }
+            return event;
+        },
+
         handleEventDrop(e) {
+            const event = this.createEventObject(e);
+            console.log(event);
             axios
-                .put("/api/event/" + e.event.id, {
-                    id: e.event.id,
-                    title: e.event.title,
-                    start: e.event.startStr,
-                    end: e.event.endStr,
-                    all_day: e.event.allDay,
-                    item:e.event.extendedProps.item,
-                    pickup_location:e.event.extendedProps.pickup_location,
-                    dropoff_locatiobn:e.event.extendedProps.dropoff_locatiobn,
-                    description:e.event.extendedProps.description,
-                    display_driver_name:e.event.extendedProps.display_driver_name,
-                    schedule_category_id:e.event.extendedProps.schedule_category_id,
-                    driver_id:e.event.extendedProps.driver_id,
-                    file_path: this.currentEvent.file_path,
-                    schedule_category_title:e.event.extendedProps.schedule_category_title,
+                .put("/api/event/" + e.event.id, event)
+                .then(({ data }) => {
+                    this.rerenderCalendar();
                 })
+                .catch((error) => {
+                    this.$emit("error");
+                });
+        },
+
+        //イベントの期間を変更
+        eventResize(e) {
+            const event = this.createEventObject(e);
+            console.log(event);
+            axios
+                .put("/api/event/" + e.event.id, event)
                 .then(({ data }) => {
                     this.rerenderCalendar();
                 })
@@ -259,32 +281,7 @@ export default {
             this.scheduleCategoryId = e.event.id;
         },
 
-        //イベントの期間を変更
-        eventResize(e) {
-            axios
-                .put("/api/event/" + e.event.id, {
-                    id: e.event.id,
-                    title: e.event.title,
-                    start: e.event.startStr,
-                    end: e.event.endStr,
-                    all_day: e.event.allDay,
-                    item:e.event.extendedProps.item,
-                    pickup_location:e.event.extendedProps.pickup_location,
-                    dropoff_locatiobn:e.event.extendedProps.dropoff_locatiobn,
-                    description:e.event.extendedProps.description,
-                    display_driver_name:e.event.extendedProps.display_driver_name,
-                    schedule_category_id:e.event.extendedProps.schedule_category_id,
-                    driver_id:e.event.extendedProps.driver_id,
-                    file_path:this.currentEvent.file_path,
-                    schedule_category_title:e.event.extendedProps.schedule_category_title,
-                })
-                .then(({ data }) => {
-                    this.rerenderCalendar();
-                })
-                .catch((error) => {
-                    this.$emit("error");
-                });
-        },
+        
         rerenderCalendar() {
             this.$refs.fullcalendar.getApi().refetchEvents();
 
