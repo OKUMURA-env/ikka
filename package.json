@@ -4,7 +4,10 @@
         "dev": "vite",
         "build": "vite build",
         "watch": "vite build --watch",
-        "heroku-postbuild": "npm run production" 
+        "heroku": "npm run production" 
+    },
+    "engines": {
+        "node": "v20.10.0"
     },
     "devDependencies": {
         "axios": "^1.1.2",
